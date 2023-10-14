@@ -16,9 +16,11 @@ function ResizeOverlay({
   });
 
   const onMouseDown = (e: MouseEvent) => {
+    const imageInDiv = quill.getModule("imageInDiv");
+
+    console.log("onMouseDOwn");
     e.stopPropagation();
     e.preventDefault();
-    // quill.root.classList.add("ql-disable-selection");
     const startX = e.clientX;
 
     const startWidth = image.width;
@@ -44,10 +46,10 @@ function ResizeOverlay({
 
       const targetWidth = startWidth + deltaX;
       const MIN_WIDTH = 50;
-      console.log({ targetWidth, maxWidth });
       let width = maxWidth
         ? Math.min(maxWidth, Math.max(targetWidth, MIN_WIDTH))
         : targetWidth;
+      console.log({ image, width });
       image.setAttribute("width", `${width}`);
       const computedWidth = window
         .getComputedStyle(image)

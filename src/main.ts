@@ -1,17 +1,25 @@
 import Quill from "quill";
 import { insertImage } from "./insertImage";
-import { CustomImageBlot, ImageInDivModule } from "./ImageInDivModule";
+import {
+  CustomImageBlot,
+  ImageInDivModule,
+  ImageOptions,
+} from "./ImageInDivModule";
 import "./preactTest.tsx";
 import { addResizeHandlers } from "./imageResizeOverlay.tsx";
 
 Quill.register("modules/imageInDiv", ImageInDivModule);
 Quill.register("blots/customImage", CustomImageBlot);
 
+const imageOptions: ImageOptions = {
+  maxWidth: 480,
+};
+
 const quill = new Quill("#editor", {
   theme: "snow",
   modules: {
     // imageDrop: true,
-    imageInDiv: true,
+    imageInDiv: imageOptions,
     toolbar: [
       ["bold", "italic", "underline", "strike"],
       ["link", "image"],

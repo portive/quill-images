@@ -1,10 +1,14 @@
 import Quill from "quill";
 
+export type ImageOptions = {
+  maxWidth?: number;
+};
+
 export class ImageInDivModule {
   quill: Quill;
-  options: {};
+  options: ImageOptions;
 
-  constructor(quill: Quill, options: {}) {
+  constructor(quill: Quill, options: ImageOptions) {
     this.quill = quill;
     this.options = options;
 
@@ -13,13 +17,17 @@ export class ImageInDivModule {
   }
 
   handleEditorChange(eventName: any) {
+    /**
+     * NOTE: This needs to be here and not in `.on('text-change')` because
+     * it doesn't fire on initial load in that event handler but it does in
+     * `editor-change`
+     */
     if (eventName === "text-change") {
-      // Handle image rendering when text changes
-      this.renderImagesAsDivs();
+      this.placeImagesInDivs();
     }
   }
 
-  renderImagesAsDivs() {
+  placeImagesInDivs() {
     const images = this.quill.root.querySelectorAll("img");
     images.forEach((image: HTMLImageElement) => {
       const span = document.createElement("span");
