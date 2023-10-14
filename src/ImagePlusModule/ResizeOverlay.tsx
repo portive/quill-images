@@ -3,7 +3,7 @@ import { useState } from "preact/hooks";
 import Quill from "quill";
 import { ResizeLabel } from "./ResizeLabel";
 
-function ResizeOverlay({
+export function ResizeOverlay({
   image,
   quill,
 }: {
@@ -79,33 +79,4 @@ function ResizeOverlay({
       <ResizeLabel size={currentSize} />
     </div>
   );
-}
-
-export function addResizeHandlers(quill: Quill) {
-  quill.root.addEventListener("click", (e: MouseEvent) => {
-    const clickedElement = e.target as HTMLElement;
-
-    // Check if the clicked element is an <img> element
-    if (clickedElement.tagName.toLowerCase() !== "img") return;
-
-    const imageElement = clickedElement as HTMLImageElement;
-
-    const parentElement = imageElement.parentElement;
-
-    if (!parentElement) return;
-
-    parentElement.classList.add("ql-image-selected");
-
-    render(<ResizeOverlay image={imageElement} quill={quill} />, parentElement);
-
-    const deselectImage = (e: MouseEvent) => {
-      if ((e.target as HTMLElement)?.parentElement === parentElement) return;
-
-      parentElement.classList.remove("ql-image-selected");
-      render(null, parentElement);
-      quill.root.removeEventListener("click", deselectImage);
-    };
-
-    quill.root.addEventListener("click", deselectImage);
-  });
 }

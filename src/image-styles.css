@@ -16,15 +16,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  /* background: rgba(0, 0, 0, 0.5); */
-  /* background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  padding: 0.5em;
-  font-size: 12px;
-  border-radius: 0 0 1em 1em;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.25s; */
 }
 
 .ql-image-resize-overlay {

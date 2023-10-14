@@ -1,0 +1,43 @@
+import { render } from "preact";
+import Quill from "quill";
+import { ResizeOverlay } from "./ResizeOverlay";
+
+export function addResizeHandlers(quill: Quill) {
+  /**
+   * When you click anywhere in the editor, we check if th clicked element is
+   * an <img> element. If it is, we add the `ql-image-selected` class to the
+   * parent element and render the resize overlay.
+   *
+   * We use Preact to do this because it simplifies the logic and only adds
+   * a few kb to the bundle.
+   */
+  quill.root.addEventListener("click", (e: MouseEvent) => {
+    const clickedElement = e.target as HTMLElement;
+
+    // Check if the clicked element is an <img> element
+    if (clickedElement.tagName.toLowerCase() !== "img") return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const imageElement = clickedElement as HTMLImageElement;
+
+    const parentElement = imageElement.parentElement;
+
+    if (!parentElement) return;
+
+    parentElement.classList.add("ql-image-selected");
+
+    render(<ResizeOverlay image={imageElement} quill={quill} />, parentElement);
+
+    const deselectImage = (e: MouseEvent) => {
+      if ((e.target as HTMLElement)?.parentElement === parentElement) return;
+
+      parentElement.classList.remove("ql-image-selected");
+      render(null, parentElement);
+      document.removeEventListener("mousedown", deselectImage);
+    };
+
+    document.addEventListener("mousedown", deselectImage);
+  });
+}
