@@ -25,7 +25,6 @@ export class ImageInDivModule {
       const span = document.createElement("span");
       span.setAttribute("class", "ql-image");
       const cloneImage = image.cloneNode(true) as HTMLImageElement;
-      cloneImage.setAttribute("width", "480");
       span.appendChild(cloneImage);
       const parentNode = image.parentNode;
       if (
@@ -70,8 +69,8 @@ export class CustomImageBlot extends Embed {
     const img = this.getImage(node as HTMLDivElement);
     const width = img.getAttribute("width");
     const height = img.getAttribute("height");
-    if (width) attrs.width = width;
-    if (height) attrs.height = height;
+    if (typeof width == "string") attrs.width = width;
+    if (typeof height == "string") attrs.height = height;
 
     return attrs;
   }

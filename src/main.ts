@@ -1,9 +1,8 @@
-// import { Client, uploadFile } from "@portive/client";
 import Quill from "quill";
-// import { ImageDrop } from "quill-image-drop-module";
-// import { render } from "preact";
 import { insertImage } from "./insertImage";
 import { CustomImageBlot, ImageInDivModule } from "./ImageInDivModule";
+import "./preactTest.tsx";
+import { addResizeHandlers } from "./imageResizeOverlay.tsx";
 
 Quill.register("modules/imageInDiv", ImageInDivModule);
 Quill.register("blots/customImage", CustomImageBlot);
@@ -68,15 +67,17 @@ quill.getModule("toolbar").addHandler("image", () => {
 //   }
 // });
 
-quill.root.addEventListener("mousedown", (e: MouseEvent) => {
-  const clickedElement = e.target as HTMLElement;
+addResizeHandlers(quill);
 
-  // Check if the clicked element is an <img> element
-  if (clickedElement.tagName.toLowerCase() !== "img") return;
+// quill.root.addEventListener("mousedown", (e: MouseEvent) => {
+//   const clickedElement = e.target as HTMLElement;
 
-  const parentElement = clickedElement.parentElement;
-  console.log("parentElement", parentElement);
-});
+//   // Check if the clicked element is an <img> element
+//   if (clickedElement.tagName.toLowerCase() !== "img") return;
+
+//   const parentElement = clickedElement.parentElement;
+//   console.log("parentElement", parentElement);
+// });
 
 // quill.on('selection-change', (range, oldRange, source) => {
 
