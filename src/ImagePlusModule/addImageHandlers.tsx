@@ -1,6 +1,6 @@
 import { render } from "preact";
 import Quill from "quill";
-import { ResizeOverlay } from "./ResizeOverlay";
+import { ResizeControls } from "./ResizeControls";
 import { getImagePlusOptions } from ".";
 import { setStyles } from "./utils";
 
@@ -39,7 +39,7 @@ export function addImageHandlers(quill: Quill) {
       boxShadow: options.imageFocusBoxShadow,
     });
 
-    render(<ResizeOverlay image={imageElement} quill={quill} />, parentElement);
+    render(<ResizeControls image={imageElement} quill={quill} />, parentElement);
 
     const deselectImage = (e: MouseEvent) => {
       if ((e.target as HTMLElement)?.parentElement === parentElement) return;

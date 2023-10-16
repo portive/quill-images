@@ -6,7 +6,7 @@ import { resizeInWidth } from "@portive/client";
 import { getImagePlusOptions } from ".";
 import { ImagePlusModule } from "./ImagePlusModule";
 
-export function ResizeOverlay({
+export function ResizeControls({
   image,
   quill,
 }: {
@@ -50,9 +50,8 @@ export function ResizeOverlay({
       const deltaX = e.clientX - startX;
 
       const targetWidth = startWidth + deltaX;
-      const MIN_WIDTH = 50;
       let width = originalWidth
-        ? Math.min(originalWidth, Math.max(targetWidth, MIN_WIDTH))
+        ? Math.min(originalWidth, Math.max(targetWidth, options.minWidth))
         : targetWidth;
       width = Math.min(width, options.maxWidth);
       image.setAttribute("width", `${width}`);

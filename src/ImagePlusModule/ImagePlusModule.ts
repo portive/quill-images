@@ -10,6 +10,7 @@ export class ImagePlusModule {
     this.quill = quill;
     this.options = Object.assign(
       {
+        minWidth: 50,
         maxWidth: 480,
         imageBorderRadius: 0,
         imageFocusBoxShadow: "0 0 0 4px black",
