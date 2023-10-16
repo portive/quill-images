@@ -4,7 +4,7 @@ import { ResizeOverlay } from "./ResizeOverlay";
 
 export function addResizeHandlers(quill: Quill) {
   /**
-   * When you click anywhere in the editor, we check if th clicked element is
+   * When you click anywhere in the editor, we check if the clicked element is
    * an <img> element. If it is, we add the `ql-image-selected` class to the
    * parent element and render the resize overlay.
    *
@@ -38,6 +38,6 @@ export function addResizeHandlers(quill: Quill) {
       document.removeEventListener("mousedown", deselectImage);
     };
 
-    document.addEventListener("mousedown", deselectImage);
+    document.addEventListener("click", deselectImage);
   });
 }
