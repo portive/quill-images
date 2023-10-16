@@ -19,6 +19,7 @@
     "quill-image-drop-module": "^1.0.3"
   },
   "scripts": {
+    "-- start": "# start",
     "build": "tsc && vite build",
     "dev": "vite",
     "preview": "vite preview",
