@@ -34,6 +34,7 @@ export function addImageHandlers(quill: Quill) {
 
     // parentElement.classList.add("ql-image-selected");
 
+    imageElement.setAttribute("draggable", "false");
     const resetStyles = setStyles(parentElement, {
       boxShadow: options.imageFocusBoxShadow,
     });
@@ -46,6 +47,7 @@ export function addImageHandlers(quill: Quill) {
       resetStyles();
       // parentElement.classList.remove("ql-image-selected");
       render(null, parentElement);
+      imageElement.setAttribute("draggable", "true");
       document.removeEventListener("click", deselectImage);
       document.removeEventListener("dragstart", deselectImage);
     };
