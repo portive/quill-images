@@ -2,18 +2,15 @@ import Quill from "quill";
 import { insertImage } from "./insertImage";
 import "./ImagePlusModule";
 import { ImagePlusOptions } from "./ImagePlusModule";
-import "./preactTest.tsx";
-import { addResizeHandlers } from "./imageResizeOverlay.tsx";
 
-const imageOptions: ImagePlusOptions = {
+const imagePlusOptions: ImagePlusOptions = {
   maxWidth: 480,
 };
 
 const quill = new Quill("#editor", {
   theme: "snow",
   modules: {
-    // imageDrop: true,
-    imagePlus: imageOptions,
+    imagePlus: imagePlusOptions,
     toolbar: [
       ["bold", "italic", "underline", "strike"],
       ["link", "image"],

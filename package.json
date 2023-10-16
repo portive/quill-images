@@ -1,14 +1,10 @@
 {
   "name": "quill-demo",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
   "devDependencies": {
+    "@portive/fire": "^2.0.12",
     "@types/quill": "^2.0.12",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
@@ -21,5 +17,13 @@
     "quill": "^1.3.7",
     "quill-delta": "^5.1.0",
     "quill-image-drop-module": "^1.0.3"
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "-- fire": "# fire",
+    "fire": "fire ~/projects/fire/fire-monorepo fire",
+    "-- end": "# end"
   }
 }
