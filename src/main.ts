@@ -1,7 +1,7 @@
 import Quill from "quill";
-import { insertImage } from "./insertImage";
+import { insertImage } from "./ImagePlusModule/uploadImage";
 import "./ImagePlusModule";
-import { ImagePlusOptions } from "./ImagePlusModule";
+import { ImagePlusOptions } from "./ImagePlusModule/types";
 
 const imagePlusOptions: ImagePlusOptions = {
   maxWidth: 480,

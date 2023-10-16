@@ -1,4 +1,5 @@
 import { Client, uploadFile } from "@portive/client";
+import { Blot } from "parchment/dist/typings/blot/abstract/blot";
 import Quill, { RangeStatic } from "quill";
 import Delta from "quill-delta";
 
@@ -49,21 +50,27 @@ export function insertImage(quill: Quill, file: File) {
 
   reader.onload = async (e) => {
     if (!e.target) return;
+
+    /**
+     * Insert the image as a custom blot
+     */
     const dataURL = e.target.result as string;
     let delta = new Delta()
       .retain(range.index)
       .delete(range.length)
-      .insert({ image: dataURL });
-
+      .insert({ customImage: dataURL });
     quill.updateContents(delta);
 
-    let dynamicRange = { index: range.index, length: 1 };
-
+    /**
+     * Create a reference to a dynamic range that will be updated as the user
+     * types.
+     */
+    let dynamicRange = { index: range.index + 1, length: 1 };
     const textChangeHandler = (changeDelta: Delta) => {
       dynamicRange = calculateNewRange(changeDelta, dynamicRange);
     };
-
     quill.on("text-change", textChangeHandler);
+
     quill.setSelection(range.index + 1, 0);
 
     const uploadResult = await uploadFile({
@@ -87,7 +94,7 @@ export function insertImage(quill: Quill, file: File) {
         new Delta()
           .retain(dynamicRange.index)
           .delete(dynamicRange.length)
-          .insert({ image: uploadResult.hostedFile.url })
+          .insert({ customImage: uploadResult.hostedFile.url })
       );
       quill.setSelection(range);
     };

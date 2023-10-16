@@ -3,11 +3,11 @@
   display: inline-block;
 }
 .ql-image img {
-  border-radius: 1em;
+  /* border-radius: 1em; */
 }
 
 .ql-image-selected img {
-  box-shadow: 0 0 0 4px #0060c0;
+  /* box-shadow: 0 0 0 4px #0060c0; */
 }
 
 .ql-image-overlay {
@@ -39,3 +39,10 @@
   cursor: ew-resize;
   user-select: none;
 }
+          position: "absolute",
+          cursor: "ew-resize",
+          width: 16,
+          right: -8,
+          top: 0,
+          bottom: 0,
+          background: "rgba(127,127,127,0.01)",

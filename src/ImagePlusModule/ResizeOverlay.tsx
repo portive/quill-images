@@ -3,6 +3,8 @@ import { useState } from "preact/hooks";
 import Quill from "quill";
 import { ResizeLabel } from "./ResizeLabel";
 import { resizeInWidth } from "@portive/client";
+import { getImagePlusOptions } from ".";
+import { ImagePlusModule } from "./ImagePlusModule";
 
 export function ResizeOverlay({
   image,
@@ -19,22 +21,20 @@ export function ResizeOverlay({
 
   const onMouseDown = (e: MouseEvent) => {
     setIsResizing(true);
-    const imagePlus = quill.getModule("imagePlus");
 
-    console.log("onMouseDOwn");
-    // e.stopPropagation();
-    // e.preventDefault();
+    const options = getImagePlusOptions(quill);
+
     const startX = e.clientX;
 
     const startWidth = image.width;
 
-    let maxWidth: number | null = null;
-    let maxHeight: number | null = null;
+    let originalWidth: number | null = null;
+    let originalHeight: number | null = null;
 
     const unsizedImage = new Image();
     unsizedImage.onload = () => {
-      maxWidth = unsizedImage.width;
-      maxHeight = unsizedImage.height;
+      originalWidth = unsizedImage.width;
+      originalHeight = unsizedImage.height;
     };
     unsizedImage.src = image.src;
 
@@ -51,9 +51,10 @@ export function ResizeOverlay({
 
       const targetWidth = startWidth + deltaX;
       const MIN_WIDTH = 50;
-      let width = maxWidth
-        ? Math.min(maxWidth, Math.max(targetWidth, MIN_WIDTH))
+      let width = originalWidth
+        ? Math.min(originalWidth, Math.max(targetWidth, MIN_WIDTH))
         : targetWidth;
+      width = Math.min(width, options.maxWidth);
       image.setAttribute("width", `${width}`);
       const computedWidth = window
         .getComputedStyle(image)
@@ -86,7 +87,6 @@ export function ResizeOverlay({
      * Also, image has max width/height and the cursor can fall outside of it.
      */
 
-    console.log("setting cursor");
     document.body.style.cursor = "ew-resize";
   };
 

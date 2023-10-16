@@ -1,8 +1,13 @@
 import { render } from "preact";
 import Quill from "quill";
 import { ResizeOverlay } from "./ResizeOverlay";
+import { getImagePlusOptions } from ".";
+import { setStyles } from "./utils";
 
-export function addResizeHandlers(quill: Quill) {
+/**
+ * The
+ */
+export function addImageHandlers(quill: Quill) {
   /**
    * When you click anywhere in the editor, we check if the clicked element is
    * an <img> element. If it is, we add the `ql-image-selected` class to the
@@ -12,6 +17,7 @@ export function addResizeHandlers(quill: Quill) {
    * a few kb to the bundle.
    */
   quill.root.addEventListener("click", (e: MouseEvent) => {
+    const options = getImagePlusOptions(quill);
     const clickedElement = e.target as HTMLElement;
 
     // Check if the clicked element is an <img> element
@@ -26,18 +32,25 @@ export function addResizeHandlers(quill: Quill) {
 
     if (!parentElement) return;
 
-    parentElement.classList.add("ql-image-selected");
+    // parentElement.classList.add("ql-image-selected");
+
+    const resetStyles = setStyles(parentElement, {
+      boxShadow: options.imageFocusBoxShadow,
+    });
 
     render(<ResizeOverlay image={imageElement} quill={quill} />, parentElement);
 
     const deselectImage = (e: MouseEvent) => {
       if ((e.target as HTMLElement)?.parentElement === parentElement) return;
 
-      parentElement.classList.remove("ql-image-selected");
+      resetStyles();
+      // parentElement.classList.remove("ql-image-selected");
       render(null, parentElement);
-      document.removeEventListener("mousedown", deselectImage);
+      document.removeEventListener("click", deselectImage);
+      document.removeEventListener("dragstart", deselectImage);
     };
 
     document.addEventListener("click", deselectImage);
+    document.addEventListener("dragstart", deselectImage);
   });
 }
