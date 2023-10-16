@@ -2,6 +2,7 @@
   position: relative;
   display: inline-block;
 }
+
 .ql-image img {
   /* border-radius: 1em; */
 }
@@ -10,15 +11,15 @@
   /* box-shadow: 0 0 0 4px #0060c0; */
 }
 
-.ql-image-overlay {
+/* .ql-image-overlay {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-}
+} */
 
-.ql-image-resize-overlay {
+.ql-image-resize-controls {
   /* position: absolute;
   left: 0;
   top: 0;
@@ -39,10 +40,3 @@
   cursor: ew-resize;
   user-select: none;
 }
-          position: "absolute",
-          cursor: "ew-resize",
-          width: 16,
-          right: -8,
-          top: 0,
-          bottom: 0,
-          background: "rgba(127,127,127,0.01)",

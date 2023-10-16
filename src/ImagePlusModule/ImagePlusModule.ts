@@ -1,5 +1,5 @@
 import Quill from "quill";
-import { addImageHandlers } from "./addImageHandlers";
+import { addImageSelectHandlers } from "./addImageSelectHandlers";
 import { ImagePlusOptions } from "./types";
 
 export class ImagePlusModule {
@@ -13,12 +13,13 @@ export class ImagePlusModule {
         minWidth: 50,
         maxWidth: 480,
         imageBorderRadius: 0,
-        imageFocusBoxShadow: "0 0 0 4px black",
+        focusBorderWidth: 4,
+        focusBorderColor: "black",
       },
       options
     );
 
-    addImageHandlers(quill);
+    addImageSelectHandlers(quill);
 
     this.addEditorTextChangeHandler();
   }

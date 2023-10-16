@@ -93,7 +93,7 @@ export function ResizeControls({
     /**
      * contenteditable=false to prevent typing in the overlay/handle
      */
-    <div class="ql-image-resize-overlay" contentEditable={false}>
+    <div class="ql-image-resize-controls" contentEditable={false}>
       <div class="ql-image-resize-handle" onMouseDown={onMouseDown}></div>
       <ResizeLabel size={currentSize} />
     </div>

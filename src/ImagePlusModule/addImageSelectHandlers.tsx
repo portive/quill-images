@@ -7,7 +7,7 @@ import { setStyles } from "./utils";
 /**
  * The
  */
-export function addImageHandlers(quill: Quill) {
+export function addImageSelectHandlers(quill: Quill) {
   /**
    * When you click anywhere in the editor, we check if the clicked element is
    * an <img> element. If it is, we add the `ql-image-selected` class to the
@@ -36,10 +36,13 @@ export function addImageHandlers(quill: Quill) {
 
     imageElement.setAttribute("draggable", "false");
     const resetStyles = setStyles(parentElement, {
-      boxShadow: options.imageFocusBoxShadow,
+      boxShadow: `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`,
     });
 
-    render(<ResizeControls image={imageElement} quill={quill} />, parentElement);
+    render(
+      <ResizeControls image={imageElement} quill={quill} />,
+      parentElement
+    );
 
     const deselectImage = (e: MouseEvent) => {
       if ((e.target as HTMLElement)?.parentElement === parentElement) return;
