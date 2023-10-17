@@ -35,9 +35,11 @@ export function addImageSelectHandlers(quill: Quill) {
     // parentElement.classList.add("ql-image-selected");
 
     imageElement.setAttribute("draggable", "false");
-    const resetStyles = setStyles(parentElement, {
-      boxShadow: `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`,
-    });
+
+    parentElement.style.boxShadow = `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`;
+    // setStyles(parentElement, {
+    //   boxShadow: `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`,
+    // });
 
     render(
       <ResizeControls image={imageElement} quill={quill} />,
@@ -47,7 +49,14 @@ export function addImageSelectHandlers(quill: Quill) {
     const deselectImage = (e: MouseEvent) => {
       if ((e.target as HTMLElement)?.parentElement === parentElement) return;
 
-      resetStyles();
+      (
+        quill.root.querySelectorAll(
+          ".ql-image > img"
+        ) as NodeListOf<HTMLImageElement>
+      ).forEach((img) => {
+        img.parentElement!.style.boxShadow = "none";
+      });
+
       render(null, parentElement);
       imageElement.setAttribute("draggable", "true");
       document.removeEventListener("click", deselectImage);

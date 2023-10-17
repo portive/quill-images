@@ -29,4 +29,4 @@ It features:
 - [ ] Small handle support outside image
 - [ ] Show proper drag cursor everywhere
 - [ ] Show "selection" box after mouseup
-- [ ] Resize presets
+- [ ] Add presets for resizing
