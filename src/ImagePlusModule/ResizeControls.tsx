@@ -32,13 +32,14 @@ export function ResizeControls({
 
     const startWidth = image.width;
 
-    let originalWidth: number | null = null;
-    let originalHeight: number | null = null;
+    let originalSize: { width: number; height: number } | null = null;
 
     const unsizedImage = new Image();
     unsizedImage.onload = () => {
-      originalWidth = unsizedImage.width;
-      originalHeight = unsizedImage.height;
+      originalSize = {
+        width: unsizedImage.width,
+        height: unsizedImage.height,
+      };
     };
     unsizedImage.src = image.src;
 
@@ -48,8 +49,8 @@ export function ResizeControls({
       const deltaX = e.clientX - startX;
 
       const targetWidth = startWidth + deltaX;
-      let width = originalWidth
-        ? Math.min(originalWidth, Math.max(targetWidth, options.minWidth))
+      let width = originalSize
+        ? Math.min(originalSize.width, Math.max(targetWidth, options.minWidth))
         : targetWidth;
       /**
        * We want to round because we don't want `height` to trigger changes
