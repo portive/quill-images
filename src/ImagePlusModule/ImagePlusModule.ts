@@ -24,14 +24,15 @@ export class ImagePlusModule {
         labelFont: "10px/20px sans-serif",
         labelOffset: 4,
         handleColor: "black",
-        handleHeightThreshold: 50,
+        smallHandleThreshold: { width: 100, height: 100 },
         bigHandleRadius: 8,
         bigHandleWidth: 16,
         bigHandleHeight: 48,
-        smallHandleRadius: 4,
+        smallHandleRadius: 6,
         smallHandleWidth: 16,
-        smallHandleHeight: 16,
+        smallHandleHeight: 24,
         smallHandleColor: "black",
+        smallHandleOffset: 1,
       },
       options
     );

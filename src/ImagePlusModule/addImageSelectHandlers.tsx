@@ -32,14 +32,9 @@ export function addImageSelectHandlers(quill: Quill) {
 
     if (!parentElement) return;
 
-    // parentElement.classList.add("ql-image-selected");
-
     imageElement.setAttribute("draggable", "false");
 
     parentElement.style.boxShadow = `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`;
-    // setStyles(parentElement, {
-    //   boxShadow: `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`,
-    // });
 
     render(
       <ResizeControls image={imageElement} quill={quill} />,
@@ -48,7 +43,9 @@ export function addImageSelectHandlers(quill: Quill) {
 
     const deselectImage = (e: MouseEvent) => {
       if ((e.target as HTMLElement)?.parentElement === parentElement) return;
-
+      /**
+       * Remove the border on all `.ql-image` images
+       */
       (
         quill.root.querySelectorAll(
           ".ql-image > img"

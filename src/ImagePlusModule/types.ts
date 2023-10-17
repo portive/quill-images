@@ -14,10 +14,11 @@ export type ImagePlusOptions = {
   labelOffset: number;
 
   handleColor: string;
-  handleHeightThreshold: number;
+  smallHandleThreshold: { width: number; height: number };
   bigHandleRadius: number;
   bigHandleWidth: number;
   bigHandleHeight: number;
+  smallHandleOffset: number;
   smallHandleRadius: number;
   smallHandleWidth: number;
   smallHandleHeight: number;

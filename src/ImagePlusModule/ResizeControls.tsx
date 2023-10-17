@@ -25,6 +25,12 @@ export function ResizeControls({
   const [maxWidth, setMaxWidth] = useState(options.maxWidth);
   const [minWidth, setMinWidth] = useState(options.minWidth);
 
+  const handleType =
+    currentSize.width <= options.smallHandleThreshold.width ||
+    currentSize.height <= options.smallHandleThreshold.height
+      ? "small"
+      : "big";
+
   const onMouseDown = (e: MouseEvent) => {
     setIsResizing(true);
 
@@ -127,6 +133,7 @@ export function ResizeControls({
         onMouseDown={onMouseDown}
         options={options}
         size={currentSize}
+        handleType={handleType}
         minWidth={minWidth}
         maxWidth={maxWidth}
       />
