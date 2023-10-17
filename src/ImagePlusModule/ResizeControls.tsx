@@ -5,8 +5,8 @@ import { ResizeLabel } from "./ResizeLabel";
 import { resizeInWidth } from "@portive/client";
 import { getImagePlusOptions } from ".";
 import { ImagePlusModule } from "./ImagePlusModule";
-import { ImagePlusOptions } from "./types";
 import { generateSrcSet } from "./utils";
+import { ResizeHandle } from "./ResizeHandle";
 
 export function ResizeControls({
   image,
@@ -15,13 +15,15 @@ export function ResizeControls({
   image: HTMLImageElement;
   quill: Quill;
 }) {
+  const options = getImagePlusOptions(quill);
+
   const [isResizing, setIsResizing] = useState(false);
   const [currentSize, setCurrentSize] = useState({
     width: image.width,
     height: image.height,
   });
-
-  const options = getImagePlusOptions(quill);
+  const [maxWidth, setMaxWidth] = useState(options.maxWidth);
+  const [minWidth, setMinWidth] = useState(options.minWidth);
 
   const onMouseDown = (e: MouseEvent) => {
     setIsResizing(true);
@@ -40,6 +42,7 @@ export function ResizeControls({
         width: unsizedImage.width,
         height: unsizedImage.height,
       };
+      setMaxWidth(Math.min(maxWidth, originalSize.width));
     };
     unsizedImage.src = image.src;
 
@@ -120,45 +123,14 @@ export function ResizeControls({
      * contenteditable=false to prevent typing in the overlay/handle
      */
     <div class="ql-image-resize-controls" contentEditable={false}>
-      {/* <div class="ql-image-resize-handle" onMouseDown={onMouseDown}></div> */}
       <ResizeHandle
         onMouseDown={onMouseDown}
         options={options}
         size={currentSize}
+        minWidth={minWidth}
+        maxWidth={maxWidth}
       />
       <ResizeLabel size={currentSize} options={options} />
     </div>
-  );
-}
-
-type HandleDirection = "left" | "right" | "both" | "neither";
-
-export function ResizeHandle({
-  onMouseDown,
-  options,
-  size,
-}: {
-  onMouseDown: (e: MouseEvent) => void;
-  options: ImagePlusOptions;
-  size: { width: number; height: number };
-}) {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: "50%",
-        marginTop: -options.bigHandleHeight / 2,
-        right: -(options.bigHandleWidth + options.focusBorderWidth) / 2,
-        width: options.bigHandleWidth,
-        height: options.bigHandleHeight,
-        backgroundColor: options.handleColor,
-        borderRadius: options.bigHandleRadius,
-        zIndex: 100,
-        cursor: "ew-resize",
-        userSelect: "none",
-        boxShadow: "0 0 0 1px rgba(255,255,255,0.25)",
-      }}
-      onMouseDown={onMouseDown}
-    ></div>
   );
 }
