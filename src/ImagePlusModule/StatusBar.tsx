@@ -1,4 +1,6 @@
-import { Upload } from "../types";
+import { JSX } from "preact";
+// import { Upload } from "../types";
+// import { JSXInternal } from "preact/src/jsx";
 
 export function ProgressBar({
   upload,
@@ -9,7 +11,7 @@ export function ProgressBar({
 }: {
   upload: Upload;
   className?: string;
-  style?: React.CSSProperties;
+  style?: JSX.CSSProperties;
   width: number;
   height?: number;
 }) {

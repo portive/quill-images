@@ -1,3 +1,4 @@
+// import { EmbedBlot } from "parchment";
 import Quill from "quill";
 
 const Embed = Quill.import("blots/block/embed");
@@ -7,13 +8,21 @@ export class ImagePlusBlot extends Embed {
   static tagName = "SPAN";
   static className = "ql-image";
   static create(value: any) {
-    const node = super.create(value);
+    const node = super.create(value) as HTMLSpanElement;
     node.setAttribute("draggable", "true");
+    node.style.position = "relative";
+    node.style.userSelect = "none";
     const image = document.createElement("img");
     image.setAttribute("draggable", "false");
     image.setAttribute("src", value);
     node.appendChild(image);
     return node;
+  }
+
+  // domNode!: HTMLSpanElement;
+
+  getImage(): HTMLImageElement {
+    return ImagePlusBlot.getImage(this.domNode);
   }
 
   /**
@@ -27,7 +36,6 @@ export class ImagePlusBlot extends Embed {
       if (childNode.nodeName.toLowerCase() !== "img") continue;
       return childNode as HTMLImageElement;
     }
-    console.log(node);
     throw new Error(`Could not find image in embed`);
   }
 
@@ -37,6 +45,13 @@ export class ImagePlusBlot extends Embed {
   static value(node: HTMLSpanElement) {
     const img = this.getImage(node);
     return img.getAttribute("src");
+  }
+
+  static format(name: string, value: any) {
+    //   // this.domNode;
+    //   console.log("domNode", this.domNode);
+    console.log("format");
+    console.log({ name, value });
   }
 
   /**
