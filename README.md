@@ -16,17 +16,18 @@ It features:
   - True server side image resizing when used with Portive's Rich Text Editor services
   - Delivers high resolution images to high DPI devices and smaller images to low DPI devices
 - Style the interface the way you like
+
   - Rounded corners to images
   - Selection outline color
   - Selection outline width
 
-- [ ] Big drag handle
-  - [ ] Reposition handle when max
-  - [ ] Reposition handle when min
-- [ ] Small drag handle
-  - [ ] Reposition handle when max
-  - [ ] Reposition handle when min
-- [ ] Small handle support outside image
+- [x] Big drag handle
+  - [x] Reposition handle when max
+  - [x] Reposition handle when min
+- [x] Small drag handle
+  - [x] Reposition handle when max
+  - [x] Reposition handle when min
+- [x] Small handle support outside image
 - [ ] Show proper drag cursor everywhere
-- [ ] Show "selection" box after mouseup
+- [x] Show "selection" box after mouseup
 - [ ] Add presets for resizing

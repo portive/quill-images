@@ -20,11 +20,8 @@ export function addImageSelectHandlers(quill: Quill) {
     const options = getImagePlusOptions(quill);
     const clickedElement = e.target as HTMLElement;
 
-    // Check if the clicked element is an <img> element
+    // If the clicked element is not an <img> element then exit
     if (clickedElement.tagName.toLowerCase() !== "img") return;
-
-    e.preventDefault();
-    e.stopPropagation();
 
     const imageElement = clickedElement as HTMLImageElement;
 
@@ -32,33 +29,42 @@ export function addImageSelectHandlers(quill: Quill) {
 
     if (!parentElement) return;
 
+    e.preventDefault();
+    e.stopPropagation();
+
+    /**
+     * Disable dragging when focused.
+     *
+     * It might be nice to re-enable this, but beware dragging when the image
+     * is selected for the image gets dragged outside of the `span` and then
+     * you have an orphaned image.
+     *
+     * To test this, try dragging the selected image into a new paragraph and
+     * make sure everything still works correctly.
+     */
     imageElement.setAttribute("draggable", "false");
 
-    parentElement.style.boxShadow = `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`;
+    const resetBoxShadow = setStyles(parentElement, {
+      boxShadow: `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`,
+    });
+    // parentElement.style.boxShadow = `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`;
 
     render(
       <ResizeControls image={imageElement} quill={quill} />,
       parentElement
     );
 
-    const deselectImage = (e: MouseEvent) => {
-      if ((e.target as HTMLElement)?.parentElement === parentElement) return;
-      /**
-       * Remove the border on all `.ql-image` images
-       */
-      (
-        quill.root.querySelectorAll(
-          ".ql-image > img"
-        ) as NodeListOf<HTMLImageElement>
-      ).forEach((img) => {
-        img.parentElement!.style.boxShadow = "none";
-      });
-
+    const deselectImage = () => {
       render(null, parentElement);
+      resetBoxShadow();
       imageElement.setAttribute("draggable", "true");
-      document.removeEventListener("click", deselectImage);
+      // document.removeEventListener("click", deselectImage);
+      quill.off("selection-change", deselectImage);
     };
 
-    document.addEventListener("click", deselectImage);
+    quill.blur();
+    setTimeout(() => {
+      quill.on("selection-change", deselectImage);
+    });
   });
 }

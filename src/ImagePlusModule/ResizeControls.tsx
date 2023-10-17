@@ -93,6 +93,8 @@ export function ResizeControls({
     };
 
     const onMouseUp = (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
       setIsResizing(false);
       const nextSize = setSizeFromMouseEvent(e);
       const src = image.getAttribute("src");
@@ -103,7 +105,6 @@ export function ResizeControls({
         });
         image.setAttribute("srcset", srcset);
       }
-
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
       document.body.style.cursor = originalCursor;
