@@ -23,9 +23,6 @@ dependencies:
   quill-delta:
     specifier: ^5.1.0
     version: 5.1.0
-  quill-image-drop-module:
-    specifier: ^1.0.3
-    version: 1.0.3
 
 devDependencies:
   '@portive/fire':
@@ -1142,12 +1139,6 @@ packages:
       fast-diff: 1.3.0
       lodash.clonedeep: 4.5.0
       lodash.isequal: 4.5.0
-
-  /quill-image-drop-module@1.0.3:
-    resolution: {integrity: sha512-HP0Y2kb3nQk1QbRKZzEe1j3mArRQerN5B/U/MlXrOnxmhy3m/xYmVv0YoE13vWnGnBOIcoXGJ/9fi7l6AwsP8Q==}
-    dependencies:
-      quill: 1.3.7
-    dev: false
 
   /quill@1.3.7:
     resolution: {integrity: sha512-hG/DVzh/TiknWtE6QmWAF/pxoZKYxfe3J/d/+ShUWkDvvkZQVTPeVmUJVu1uE6DDooC4fWTiCLh84ul89oNz5g==}

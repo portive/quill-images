@@ -9,6 +9,7 @@ It features:
 - Image resizing
   - Drag to resize images while preserving aspect ratio
   - Show image width/height with label while resizing
+  - Supports optimized retina image delivery
   - Customizable image resize presets:
     - Fixed max width/height
     - Scaled width/height (e.g. 25%, 50%)
@@ -18,3 +19,14 @@ It features:
   - Rounded corners to images
   - Selection outline color
   - Selection outline width
+
+- [ ] Big drag handle
+  - [ ] Reposition handle when max
+  - [ ] Reposition handle when min
+- [ ] Small drag handle
+  - [ ] Reposition handle when max
+  - [ ] Reposition handle when min
+- [ ] Small handle support outside image
+- [ ] Show proper drag cursor everywhere
+- [ ] Show "selection" box after mouseup
+- [ ] Resize presets

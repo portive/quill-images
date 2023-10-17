@@ -48,14 +48,11 @@ export function addImageSelectHandlers(quill: Quill) {
       if ((e.target as HTMLElement)?.parentElement === parentElement) return;
 
       resetStyles();
-      // parentElement.classList.remove("ql-image-selected");
       render(null, parentElement);
       imageElement.setAttribute("draggable", "true");
       document.removeEventListener("click", deselectImage);
-      document.removeEventListener("dragstart", deselectImage);
     };
 
     document.addEventListener("click", deselectImage);
-    document.addEventListener("dragstart", deselectImage);
   });
 }

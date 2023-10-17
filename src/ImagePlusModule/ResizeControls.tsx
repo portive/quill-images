@@ -5,6 +5,8 @@ import { ResizeLabel } from "./ResizeLabel";
 import { resizeInWidth } from "@portive/client";
 import { getImagePlusOptions } from ".";
 import { ImagePlusModule } from "./ImagePlusModule";
+import { ImagePlusOptions } from "./types";
+import { generateSrcSet } from "./utils";
 
 export function ResizeControls({
   image,
@@ -18,6 +20,8 @@ export function ResizeControls({
     width: image.width,
     height: image.height,
   });
+
+  const options = getImagePlusOptions(quill);
 
   const onMouseDown = (e: MouseEvent) => {
     setIsResizing(true);
@@ -40,20 +44,19 @@ export function ResizeControls({
 
     const originalCursor = document.body.style.cursor;
 
-    const onMouseMove = (e: MouseEvent) => {
-      /**
-       * Prevent default behavior to prevent selecting text while resizing
-       * image.
-       */
-      e.stopPropagation();
-      e.preventDefault();
+    const setSizeFromMouseEvent = (e: MouseEvent) => {
       const deltaX = e.clientX - startX;
 
       const targetWidth = startWidth + deltaX;
       let width = originalWidth
         ? Math.min(originalWidth, Math.max(targetWidth, options.minWidth))
         : targetWidth;
-      width = Math.min(width, options.maxWidth);
+      /**
+       * We want to round because we don't want `height` to trigger changes
+       * without the `width` changing because of decimal pointes. We want to
+       * round early here.
+       */
+      width = Math.round(Math.min(width, options.maxWidth));
       image.setAttribute("width", `${width}`);
       const computedWidth = window
         .getComputedStyle(image)
@@ -61,14 +64,36 @@ export function ResizeControls({
       const computedHeight = window
         .getComputedStyle(image)
         .getPropertyValue("height");
-      setCurrentSize({
+      const nextSize = {
         width: parseInt(computedWidth, 10),
         height: parseInt(computedHeight, 10),
-      });
+      };
+      setCurrentSize(nextSize);
+      return nextSize;
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      /**
+       * Prevent default behavior to prevent selecting text while resizing
+       * image.
+       */
+      e.stopPropagation();
+      e.preventDefault();
+      setSizeFromMouseEvent(e);
     };
 
     const onMouseUp = (e: MouseEvent) => {
       setIsResizing(false);
+      const nextSize = setSizeFromMouseEvent(e);
+      const src = image.getAttribute("src");
+      if (src) {
+        const srcset = generateSrcSet({
+          url: src,
+          size: nextSize,
+        });
+        image.setAttribute("srcset", srcset);
+      }
+
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
       document.body.style.cursor = originalCursor;
@@ -94,8 +119,45 @@ export function ResizeControls({
      * contenteditable=false to prevent typing in the overlay/handle
      */
     <div class="ql-image-resize-controls" contentEditable={false}>
-      <div class="ql-image-resize-handle" onMouseDown={onMouseDown}></div>
-      <ResizeLabel size={currentSize} />
+      {/* <div class="ql-image-resize-handle" onMouseDown={onMouseDown}></div> */}
+      <ResizeHandle
+        onMouseDown={onMouseDown}
+        options={options}
+        size={currentSize}
+      />
+      <ResizeLabel size={currentSize} options={options} />
     </div>
+  );
+}
+
+type HandleDirection = "left" | "right" | "both" | "neither";
+
+export function ResizeHandle({
+  onMouseDown,
+  options,
+  size,
+}: {
+  onMouseDown: (e: MouseEvent) => void;
+  options: ImagePlusOptions;
+  size: { width: number; height: number };
+}) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: "50%",
+        marginTop: -options.bigHandleHeight / 2,
+        right: -(options.bigHandleWidth + options.focusBorderWidth) / 2,
+        width: options.bigHandleWidth,
+        height: options.bigHandleHeight,
+        backgroundColor: options.handleColor,
+        borderRadius: options.bigHandleRadius,
+        zIndex: 100,
+        cursor: "ew-resize",
+        userSelect: "none",
+        boxShadow: "0 0 0 1px rgba(255,255,255,0.25)",
+      }}
+      onMouseDown={onMouseDown}
+    ></div>
   );
 }

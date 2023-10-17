@@ -4,9 +4,9 @@ import { ImagePlusOptions } from "./types";
 
 export class ImagePlusModule {
   quill: Quill;
-  options: Required<ImagePlusOptions>;
+  options: ImagePlusOptions;
 
-  constructor(quill: Quill, options: ImagePlusOptions) {
+  constructor(quill: Quill, options: Partial<ImagePlusOptions>) {
     this.quill = quill;
     this.options = Object.assign(
       {
@@ -15,6 +15,23 @@ export class ImagePlusModule {
         imageBorderRadius: 0,
         focusBorderWidth: 4,
         focusBorderColor: "black",
+        labelColor: "white",
+        labelBackground: "black",
+        labelHeight: 20,
+        labelBorderRadius: 3,
+        labelBorderColor: "rgba(255, 255, 255, 0.25)",
+        labelBorderWidth: 1,
+        labelFont: "10px/20px sans-serif",
+        labelOffset: 4,
+        handleColor: "black",
+        handleHeightThreshold: 50,
+        bigHandleRadius: 8,
+        bigHandleWidth: 16,
+        bigHandleHeight: 48,
+        smallHandleRadius: 4,
+        smallHandleWidth: 16,
+        smallHandleHeight: 16,
+        smallHandleColor: "black",
       },
       options
     );

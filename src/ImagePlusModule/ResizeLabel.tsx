@@ -1,27 +1,33 @@
+import { ImagePlusOptions } from "./types";
+
 /**
  * The resize label that shows the width/height of the image
  */
 export function ResizeLabel({
   size,
+  options,
 }: {
   size: { width: number; height: number };
+  options: ImagePlusOptions;
 }) {
   const isBelow = size.width < 100 || size.height < 100;
-  const bottom = isBelow ? -24 : 4;
+  const bottom = isBelow
+    ? -(options.labelOffset + options.focusBorderWidth + options.labelHeight)
+    : options.labelOffset;
   return (
     <div
       style={{
         position: "absolute",
         bottom,
-        left: 4,
-        font: "10px/20px sans-serif",
-        color: "white",
-        background: "#404040",
+        left: options.labelOffset,
+        font: options.labelFont,
+        color: options.labelColor,
+        background: options.labelBackground,
         minWidth: 50,
         padding: "0 7px",
-        borderRadius: 3,
+        borderRadius: options.labelBorderRadius,
         textAlign: "center",
-        boxShadow: "0px 0px 2px 1px rgba(255, 255, 255, 0.5)",
+        boxShadow: `0px 0px 0px ${options.labelBorderWidth}px ${options.labelBorderColor}`,
         zIndex: 100,
         transition: "bottom 250ms",
       }}

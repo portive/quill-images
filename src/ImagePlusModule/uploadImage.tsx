@@ -5,6 +5,7 @@ import Quill, { RangeStatic } from "quill";
 import Delta from "quill-delta";
 import { ProgressBar } from "./ProgressBar";
 import { ImagePlusOptions } from "./types";
+import { getImagePlusOptions } from ".";
 
 const AUTH_TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InB1UFoyZTdlN0tUVzh0MjQifQ.eyJpYXQiOjE2OTY1NzU0OTUsImV4cCI6MTcyODEzMzA5NX0.vbtOx4mtGFWRkY4QORoAK00ISBFwBUe7TuKFAeYB2X8`;
 
@@ -79,8 +80,7 @@ async function getImageSizeFromUrl(
 export async function insertImage(quill: Quill, file: File) {
   if (!file) return;
 
-  const options = quill.getModule("imagePlus")
-    .options as Required<ImagePlusOptions>;
+  const options = getImagePlusOptions(quill);
 
   const range = quill.getSelection(true);
 
@@ -144,16 +144,7 @@ export async function insertImage(quill: Quill, file: File) {
   const img = new Image();
   img.onload = () => {
     render(null, blot.domNode);
-    // const range = quill.getSelection(true);
-    // quill.off("text-change", textChangeHandler);
     image.setAttribute("src", uploadResult.hostedFile.url);
-    // quill.updateContents(
-    //   new Delta()
-    //     .retain(dynamicRange.index)
-    //     .delete(dynamicRange.length)
-    //     .insert({ customImage: uploadResult.hostedFile.url })
-    // );
-    // quill.setSelection(range);
   };
   img.onerror = () => {
     // quill.off("text-change", textChangeHandler);

@@ -3,8 +3,9 @@ import { insertImage } from "./ImagePlusModule/uploadImage";
 import "./ImagePlusModule";
 import { ImagePlusOptions } from "./ImagePlusModule/types";
 
-const imagePlusOptions: ImagePlusOptions = {
+const imagePlusOptions: Partial<ImagePlusOptions> = {
   maxWidth: 480,
+  labelBorderRadius: 0,
 };
 
 const quill = new Quill("#editor", {
