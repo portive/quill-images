@@ -17,6 +17,7 @@ export function ResizeLabel({
   return (
     <div
       style={{
+        userSelect: "none",
         position: "absolute",
         bottom,
         left: options.labelOffset,

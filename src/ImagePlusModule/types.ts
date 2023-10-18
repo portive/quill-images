@@ -15,23 +15,52 @@ export type ResizePreset =
 
 export type ResizePresetInput = number | string | ResizePreset;
 
-export type ImagePlusOptions = {
+type SharedImagePlusOptions = {
   minWidth: number;
   maxWidth: number;
+
+  /**
+   * image
+   */
+  imageBorderRadius: number;
+
+  /**
+   * focus
+   */
   focusBorderWidth: number;
   focusBorderColor: string;
-  imageBorderRadius: number;
+
+  /**
+   * preset
+   */
+  presetColor: string;
+  presetBackground: string;
+  presetFocusColor: string;
+  presetFocusBackground: string;
+  presetHeight: number;
+  presetBorderRadius: number;
+  presetBorderColor: string;
+  presetBorderWidth: number;
+  presetFontFamily: string;
+  presetFontSize: number;
+  presetOffset: number;
+
+  /**
+   * label
+   */
   labelColor: string;
   labelBackground: string;
   labelHeight: number;
   labelBorderRadius: number;
   labelBorderColor: string;
   labelBorderWidth: number;
-  // labelFont: string;
   labelFontFamily: string;
   labelFontSize: number;
   labelOffset: number;
 
+  /**
+   * handle
+   */
   handleColor: string;
   smallHandleThreshold: { width: number; height: number };
   bigHandleRadius: number;
@@ -42,6 +71,12 @@ export type ImagePlusOptions = {
   smallHandleWidth: number;
   smallHandleHeight: number;
   smallHandleColor: string;
+};
 
+export type ImagePlusInputOptions = Partial<ImagePlusOptions> & {
+  resizePresets?: ResizePresetInput[];
+};
+
+export type ImagePlusOptions = SharedImagePlusOptions & {
   resizePresets: ResizePreset[];
 };

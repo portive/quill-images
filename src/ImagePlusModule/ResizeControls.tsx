@@ -7,6 +7,7 @@ import { getImagePlusOptions } from ".";
 import { ImagePlusModule } from "./ImagePlusModule";
 import { generateSrcSet } from "./utils";
 import { ResizeHandle } from "./ResizeHandle";
+import { ResizePresets } from "./ResizePresets";
 
 export function ResizeControls({
   image,
@@ -138,6 +139,7 @@ export function ResizeControls({
         minWidth={minWidth}
         maxWidth={maxWidth}
       />
+      <ResizePresets options={options} />
       <ResizeLabel size={currentSize} options={options} />
     </div>
   );
