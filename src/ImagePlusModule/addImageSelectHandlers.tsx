@@ -44,9 +44,10 @@ export function addImageSelectHandlers(quill: Quill) {
      */
     imageElement.setAttribute("draggable", "false");
 
-    const resetBoxShadow = setStyles(parentElement, {
-      boxShadow: `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`,
-    });
+    parentElement.style.boxShadow = `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`;
+    // const resetBoxShadow = setStyles(parentElement, {
+    //   boxShadow: `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`,
+    // });
     // parentElement.style.boxShadow = `0 0 0 ${options.focusBorderWidth}px ${options.focusBorderColor}`;
 
     render(
@@ -56,15 +57,13 @@ export function addImageSelectHandlers(quill: Quill) {
 
     const deselectImage = () => {
       render(null, parentElement);
-      resetBoxShadow();
+      parentElement.style.boxShadow = "none";
       imageElement.setAttribute("draggable", "true");
       // document.removeEventListener("click", deselectImage);
       quill.off("selection-change", deselectImage);
     };
 
     quill.blur();
-    setTimeout(() => {
-      quill.on("selection-change", deselectImage);
-    });
+    quill.on("selection-change", deselectImage);
   });
 }

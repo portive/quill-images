@@ -21,7 +21,8 @@ export class ImagePlusModule {
         labelBorderRadius: 3,
         labelBorderColor: "rgba(255, 255, 255, 0.25)",
         labelBorderWidth: 1,
-        labelFont: "10px/20px sans-serif",
+        labelFontFamily: "sans-serif",
+        labelFontSize: 10,
         labelOffset: 4,
         handleColor: "black",
         smallHandleThreshold: { width: 100, height: 100 },
@@ -33,6 +34,10 @@ export class ImagePlusModule {
         smallHandleHeight: 24,
         smallHandleColor: "black",
         smallHandleOffset: 1,
+        resizePresets: [160, 320, "1/2", "100%"],
+        presetColor: "white",
+        presetBackground: "black",
+        presetOffset: 4,
       },
       options
     );

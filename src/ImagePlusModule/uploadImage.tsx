@@ -87,7 +87,7 @@ export async function insertImage(quill: Quill, file: File) {
   const dataURL = await getDataUrlFromFile(file);
   const imageSize = await getImageSizeFromUrl(dataURL);
   const width = Math.min(imageSize.width, options.maxWidth);
-  console.log({ width });
+  // console.log({ width });
 
   /**
    * Insert the image as a custom blot

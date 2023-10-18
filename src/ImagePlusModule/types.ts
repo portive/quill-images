@@ -1,3 +1,20 @@
+export type Size = { width: number; height: number };
+export type Bound = { width?: number; height?: number } | null | undefined;
+
+export type ResizePreset =
+  | {
+      type: "width";
+      label: string;
+      width: number;
+    }
+  | {
+      type: "ratio";
+      label: string;
+      ratio: number;
+    };
+
+export type ResizePresetInput = number | string | ResizePreset;
+
 export type ImagePlusOptions = {
   minWidth: number;
   maxWidth: number;
@@ -10,7 +27,9 @@ export type ImagePlusOptions = {
   labelBorderRadius: number;
   labelBorderColor: string;
   labelBorderWidth: number;
-  labelFont: string;
+  // labelFont: string;
+  labelFontFamily: string;
+  labelFontSize: number;
   labelOffset: number;
 
   handleColor: string;
@@ -24,5 +43,5 @@ export type ImagePlusOptions = {
   smallHandleHeight: number;
   smallHandleColor: string;
 
-  // imageFocusBoxShadow?: string;
+  resizePresets: ResizePreset[];
 };

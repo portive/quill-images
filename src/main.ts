@@ -6,6 +6,9 @@ import { ImagePlusOptions } from "./ImagePlusModule/types";
 const imagePlusOptions: Partial<ImagePlusOptions> = {
   maxWidth: 480,
   labelBorderRadius: 0,
+  // focusBorderWidth: 12,
+  // focusBorderColor: "rgba(0, 64, 192, 0.5)",
+  imageBorderRadius: 8,
 };
 
 const quill = new Quill("#editor", {

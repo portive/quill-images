@@ -1,9 +1,4 @@
-// export async function getImageSize(element: HTMLImageElement) {
-//   const image = new Image();
-//   image.onload = () => {
-//     console.log(image.width, image.height);
-//   }
-// }
+import { Size, Bound } from "./types";
 
 export function setStyles<T extends HTMLElement>(
   element: T,
@@ -50,9 +45,6 @@ export function getImageSize(
     image.src = element.src;
   });
 }
-
-type Size = { width: number; height: number };
-type Bound = { width?: number; height?: number } | null | undefined;
 
 /**
  * Takes a `size` object and constrains it within any given bounds.
