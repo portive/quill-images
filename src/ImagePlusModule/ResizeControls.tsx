@@ -1,13 +1,15 @@
-import { render } from "preact";
-import { useState } from "preact/hooks";
+// import { render } from "preact";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import Quill from "quill";
 import { ResizeLabel } from "./ResizeLabel";
-import { resizeInWidth } from "@portive/client";
+// import { resizeInWidth } from "@portive/client";
 import { getImagePlusOptions } from ".";
-import { ImagePlusModule } from "./ImagePlusModule";
-import { generateSrcSet } from "./utils";
+// import { ImagePlusModule } from "./ImagePlusModule";
+import { generateSrcSet, getSizeFromUrl } from "./utils";
 import { ResizeHandle } from "./ResizeHandle";
 import { ResizePresets } from "./ResizePresets";
+import { Size } from "./types";
+import { useStateRef } from "./hooks";
 
 export function ResizeControls({
   image,
@@ -26,105 +28,115 @@ export function ResizeControls({
   const [maxWidth, setMaxWidth] = useState(options.maxWidth);
   const [minWidth, setMinWidth] = useState(options.minWidth);
 
+  /**
+   * Load the original size of the image to help us with resizing.
+   */
+  // const originalSizeRef = useRef<Size | null>(null);
+  const [originalSize, setOriginalSize, originalSizeRef] =
+    useStateRef<Size | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const nextOriginalSize = await getSizeFromUrl(image.src);
+      setOriginalSize(nextOriginalSize);
+    })();
+  }, [image.src]);
+
   const handleType =
     currentSize.width <= options.smallHandleThreshold.width ||
     currentSize.height <= options.smallHandleThreshold.height
       ? "small"
       : "big";
 
-  const onMouseDown = (e: MouseEvent) => {
-    setIsResizing(true);
+  const setSize = useCallback(
+    (size: Size) => {
+      image.setAttribute("width", `${size.width}`);
+      image.setAttribute("height", `${size.height}`);
+      setCurrentSize(size);
+    },
+    [image]
+  );
 
-    const options = getImagePlusOptions(quill);
-
-    const startX = e.clientX;
-
-    const startWidth = image.width;
-
-    let originalSize: { width: number; height: number } | null = null;
-
-    const unsizedImage = new Image();
-    unsizedImage.onload = () => {
-      originalSize = {
-        width: unsizedImage.width,
-        height: unsizedImage.height,
-      };
-      setMaxWidth(Math.min(maxWidth, originalSize.width));
-    };
-    unsizedImage.src = image.src;
-
-    const originalCursor = document.body.style.cursor;
-
-    const setSizeFromMouseEvent = (e: MouseEvent) => {
-      const deltaX = e.clientX - startX;
-
-      const targetWidth = startWidth + deltaX;
-      let width = originalSize
-        ? Math.min(originalSize.width, Math.max(targetWidth, options.minWidth))
-        : targetWidth;
-      /**
-       * We want to round because we don't want `height` to trigger changes
-       * without the `width` changing because of decimal pointes. We want to
-       * round early here.
-       */
-      width = Math.round(Math.min(width, options.maxWidth));
-      image.setAttribute("width", `${width}`);
-      const computedWidth = window
-        .getComputedStyle(image)
-        .getPropertyValue("width");
-      const computedHeight = window
-        .getComputedStyle(image)
-        .getPropertyValue("height");
-      const nextSize = {
-        width: parseInt(computedWidth, 10),
-        height: parseInt(computedHeight, 10),
-      };
-      setCurrentSize(nextSize);
-      return nextSize;
-    };
-
-    const onMouseMove = (e: MouseEvent) => {
-      /**
-       * Prevent default behavior to prevent selecting text while resizing
-       * image.
-       */
-      e.stopPropagation();
-      e.preventDefault();
-      setSizeFromMouseEvent(e);
-    };
-
-    const onMouseUp = (e: MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsResizing(false);
-      const nextSize = setSizeFromMouseEvent(e);
+  const setSizeFinal = useCallback(
+    (size: Size) => {
+      setSize(size);
       const src = image.getAttribute("src");
       if (src) {
         const srcset = generateSrcSet({
           url: src,
-          size: nextSize,
+          size,
         });
         image.setAttribute("srcset", srcset);
       }
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-      document.body.style.cursor = originalCursor;
-    };
+    },
+    [image]
+  );
 
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
+  const onMouseDown = useCallback(
+    (e: MouseEvent) => {
+      setIsResizing(true);
 
-    /**
-     * While dragging, we want the cursor to be `ew-resize` (left-right arrow)
-     * even if the cursor happens to not be exactly on the handle at the moment
-     * due to a delay in the cursor moving to a location and the image resizing
-     * to it.
-     *
-     * Also, image has max width/height and the cursor can fall outside of it.
-     */
+      const startX = e.clientX;
+      const startWidth = image.width;
 
-    document.body.style.cursor = "ew-resize";
-  };
+      const setSizeFromMouseEvent = (e: MouseEvent) => {
+        // const originalSize = originalSizeRef.current;
+        if (!originalSizeRef.current) return null;
+        const aspect =
+          originalSizeRef.current.width / originalSizeRef.current.height;
+        const deltaX = e.clientX - startX;
+
+        const targetWidth = startWidth + deltaX;
+        let width = originalSizeRef.current
+          ? Math.min(
+              originalSizeRef.current.width,
+              Math.max(targetWidth, options.minWidth)
+            )
+          : targetWidth;
+        /**
+         * We want to round because we don't want `height` to trigger changes
+         * without the `width` changing because of decimal pointes. We want to
+         * round early here.
+         */
+        width = Math.round(Math.min(width, options.maxWidth));
+        const height = Math.round(width / aspect);
+        const nextSize = { width, height };
+        setSize(nextSize);
+        return nextSize;
+      };
+
+      const onMouseMove = (e: MouseEvent) => {
+        setSizeFromMouseEvent(e);
+      };
+
+      const onMouseUp = (e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsResizing(false);
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+        document.body.style.cursor = "";
+        const nextSize = setSizeFromMouseEvent(e);
+        if (nextSize == null) return;
+        setSizeFinal(nextSize);
+      };
+
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+
+      /**
+       * While dragging, we want the cursor to be `ew-resize` (left-right arrow)
+       * even if the cursor happens to not be exactly on the handle at the moment
+       * due to a delay in the cursor moving to a location and the image resizing
+       * to it.
+       *
+       * Also, image has max width/height and the cursor can fall outside of it.
+       */
+
+      document.body.style.cursor = "ew-resize";
+    },
+    [image]
+  );
 
   return (
     /**
@@ -139,7 +151,13 @@ export function ResizeControls({
         minWidth={minWidth}
         maxWidth={maxWidth}
       />
-      <ResizePresets options={options} />
+      {!isResizing ? (
+        <ResizePresets
+          options={options}
+          originalSize={originalSize}
+          setSizeFinal={setSizeFinal}
+        />
+      ) : null}
       <ResizeLabel size={currentSize} options={options} />
     </div>
   );

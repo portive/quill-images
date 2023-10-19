@@ -93,24 +93,34 @@ export function resizeIn(size: Size, ...bounds: Bound[]): Size {
   };
 }
 
-export function getSizeFromUrl(url: string): Size {
+const PORTIVE_URL_REGEX = /--(\d+)x(\d+)\.\w+$/;
+
+export function getSizeFromPortiveUrl(url: string): Size | null {
   const u = new URL(url);
-  const sizeParts = u.pathname
-    .split("/")
-    .pop()
-    ?.split(".")[0]
-    .split("--")
-    .pop()
-    ?.split("x");
-  if (sizeParts === undefined) {
-    throw new Error(`Invalid url. Could not parse image size from ${url}`);
-  }
-  const width = parseInt(sizeParts[0]);
-  const height = parseInt(sizeParts[1]);
-  if (isNaN(width) || isNaN(height)) {
-    throw new Error(`Invalid url. Could not parse image size from ${url}`);
-  }
-  return { width, height };
+  const matchData = u.pathname.match(PORTIVE_URL_REGEX);
+  if (matchData == null) return null;
+  return {
+    width: parseInt(matchData[1]),
+    height: parseInt(matchData[2]),
+  };
+}
+
+async function getSizeFromImageSrc(url: string): Promise<Size> {
+  const image = new Image();
+  image.src = url;
+  await new Promise((resolve) => {
+    image.onload = resolve;
+  });
+  return {
+    width: image.width,
+    height: image.height,
+  };
+}
+
+export async function getSizeFromUrl(url: string): Promise<Size> {
+  const portiveSize = getSizeFromPortiveUrl(url);
+  if (portiveSize) return portiveSize;
+  return await getSizeFromImageSrc(url);
 }
 
 /**
@@ -120,9 +130,10 @@ export function getSizeFromUrl(url: string): Size {
  */
 export function generateResizeImageUrl(url: string, size: Size): string {
   try {
-    const originalSize = getSizeFromUrl(url);
+    const originalSize = getSizeFromPortiveUrl(url);
     const u = new URL(url);
     const baseUrl = `${u.origin}${u.pathname}`;
+    if (originalSize == null) return url;
     if (
       size.width === originalSize.width &&
       size.height === originalSize.height

@@ -35,6 +35,8 @@ type SharedImagePlusOptions = {
    */
   presetColor: string;
   presetBackground: string;
+  presetDisabledColor: string;
+  presetDisabledBackground: string;
   presetFocusColor: string;
   presetFocusBackground: string;
   presetHeight: number;

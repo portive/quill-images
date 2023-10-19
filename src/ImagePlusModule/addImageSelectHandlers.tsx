@@ -2,7 +2,6 @@ import { render } from "preact";
 import Quill from "quill";
 import { ResizeControls } from "./ResizeControls";
 import { getImagePlusOptions } from ".";
-import { setStyles } from "./utils";
 
 /**
  * The
@@ -28,6 +27,25 @@ export function addImageSelectHandlers(quill: Quill) {
     const parentElement = imageElement.parentElement;
 
     if (!parentElement) return;
+
+    /**
+     * First remove all selections from images.
+     *
+     * We need to do this because if a user clicks from one image to another,
+     * the selections don't get removed by `selection-change` only gets called
+     * if the user makes a selection and clicking image does not make that
+     * happen.
+     */
+    document
+      .querySelectorAll<HTMLSpanElement>(".ql-image")
+      .forEach((element) => {
+        render(null, element);
+        element.style.boxShadow = "none";
+      });
+
+    /**
+     * We have a clicked image of the right type now!
+     */
 
     e.preventDefault();
     e.stopPropagation();
@@ -59,7 +77,6 @@ export function addImageSelectHandlers(quill: Quill) {
       render(null, parentElement);
       parentElement.style.boxShadow = "none";
       imageElement.setAttribute("draggable", "true");
-      // document.removeEventListener("click", deselectImage);
       quill.off("selection-change", deselectImage);
     };
 
