@@ -1,48 +1,14 @@
 import { Client, uploadFile } from "@portive/client";
 import { render } from "preact";
-// import { Blot } from "parchment/dist/typings/blot/abstract/blot";
-import Quill, { RangeStatic } from "quill";
-import Delta from "quill-delta";
+import Quill from "quill";
 import { ProgressBar } from "./ProgressBar";
-import { ImagePlusOptions } from "./types";
 import { getImagePlusOptions } from ".";
+
+const Delta = Quill.import("delta");
 
 const AUTH_TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InB1UFoyZTdlN0tUVzh0MjQifQ.eyJpYXQiOjE2OTY1NzU0OTUsImV4cCI6MTcyODEzMzA5NX0.vbtOx4mtGFWRkY4QORoAK00ISBFwBUe7TuKFAeYB2X8`;
 
 const portiveClient = new Client({ authToken: AUTH_TOKEN });
-
-function calculateNewRange(delta: Delta, range: RangeStatic): RangeStatic {
-  let currentIndex = 0;
-
-  for (let op of delta.ops) {
-    if (op.retain !== undefined) {
-      if (currentIndex + (op.retain as number) > range.index) {
-        // The delta's retain operation crosses the start of the range.
-        range.index += op.retain as number;
-      }
-      currentIndex += op.retain as number;
-    } else if (op.delete !== undefined) {
-      if (currentIndex + op.delete > range.index) {
-        // The delta's delete operation crosses the start of the range.
-        let deletePastRangeStart = currentIndex + op.delete - range.index;
-        range.index -= deletePastRangeStart;
-        range.length -= op.delete - deletePastRangeStart;
-      } else if (currentIndex + op.delete <= range.index) {
-        range.index -= op.delete;
-      }
-      currentIndex += op.delete;
-    } else if (op.insert !== undefined) {
-      const insertLength = typeof op.insert === "string" ? op.insert.length : 1; // assuming 1 for embeds
-      if (currentIndex <= range.index) {
-        // The insert happens before (or exactly at) the start of the range.
-        range.index += insertLength;
-      }
-      currentIndex += insertLength;
-    }
-  }
-
-  return range;
-}
 
 async function getDataUrlFromFile(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -147,12 +113,14 @@ export async function insertImage(quill: Quill, file: File) {
     image.setAttribute("src", uploadResult.hostedFile.url);
   };
   img.onerror = () => {
+    /**
+     * TODO: If the update fails, we should do something to let the user know.
+     * Maybe write "Upload failed" on it or something?
+     */
     // quill.off("text-change", textChangeHandler);
     // quill.updateContents(
     //   new Delta().retain(dynamicRange.index).delete(dynamicRange.length)
     // );
   };
   img.src = uploadResult.hostedFile.url;
-  // };
-  // reader.readAsDataURL(file);
 }
