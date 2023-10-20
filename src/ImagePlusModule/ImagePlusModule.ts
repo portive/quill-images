@@ -7,7 +7,6 @@ import {
   ResizePresetInput,
 } from "./types";
 import { initImagePlusSpan } from "./initImagePlusSpan";
-import quill from "quill";
 import { insertImage } from "./uploadImage";
 
 function normalizePreset(preset: ResizePresetInput): ResizePreset | null {
