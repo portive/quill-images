@@ -1,6 +1,6 @@
 {
   "name": "@portive/quill-images",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": ".dist/index.cjs",
   "module": ".dist/index.js",
@@ -28,6 +28,7 @@
   "scripts": {
     "-- build": "# build",
     "build": "rimraf .dist && tsup",
+    "prepare": "pnpm build",
     "-- start": "# start",
     "dev": "vite",
     "preview": "vite preview",
