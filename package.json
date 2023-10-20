@@ -1,6 +1,6 @@
 {
   "name": "@portive/quill-images",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "main": ".dist/index.cjs",
   "module": ".dist/index.js",
@@ -16,6 +16,7 @@
     "@types/quill": "^2.0.12",
     "preact": "^10.18.1",
     "rimraf": "^5.0.5",
+    "tsup": "^7.2.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   },
