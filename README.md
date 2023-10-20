@@ -1,6 +1,6 @@
-# Readme
+# @portive/quill-images
 
-This is a complete image uploading and resizing solution for Quill.
+This is a complete image uploading and resizing solution for Quill that supports image uploading, image drag and drop, image resizing with image presets. Everything in this one package.
 
 It features:
 
@@ -28,6 +28,6 @@ It features:
   - [x] Reposition handle when max
   - [x] Reposition handle when min
 - [x] Small handle support outside image
-- [ ] Show proper drag cursor everywhere
+- [ ] Show proper drag cursor everywhere (can't use `style` attribute for this)
 - [x] Show "selection" box after mouseup
-- [ ] Add presets for resizing
+- [x] Add presets for resizing

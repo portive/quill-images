@@ -3,7 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "entry": "src/ImagePlusModule/index.ts",
+  "main": ".dist/index.cjs",
+  "module": ".dist/index.js",
+  "types": ".dist/index.d.ts",
+  "files": [
+    "package.json",
+    "README.md",
+    ".dist/**/*"
+  ],
   "devDependencies": {
     "@portive/fire": "^2.0.12",
     "@preact/preset-vite": "^2.6.0",
@@ -22,7 +29,7 @@
   },
   "scripts": {
     "-- build": "# build",
-    "build": "rimraf .dist && tsup src/ImagePlusModule/index.ts --dts -d .dist --format esm,iife,cjs",
+    "build": "rimraf .dist && tsup",
     "-- start": "# start",
     "dev": "vite",
     "preview": "vite preview",

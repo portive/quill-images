@@ -75,10 +75,10 @@ type SharedImagePlusOptions = {
   smallHandleColor: string;
 };
 
-export type ImagePlusInputOptions = Partial<ImagePlusOptions> & {
+export type ImagePlusOptions = Partial<NormalizedImagePlusOptions> & {
   resizePresets?: ResizePresetInput[];
 };
 
-export type ImagePlusOptions = SharedImagePlusOptions & {
+export type NormalizedImagePlusOptions = SharedImagePlusOptions & {
   resizePresets: ResizePreset[];
 };

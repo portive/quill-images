@@ -1,5 +1,5 @@
 import { useCallback } from "preact/hooks";
-import { ImagePlusOptions, ResizePreset, Size } from "./types";
+import { NormalizedImagePlusOptions, ResizePreset, Size } from "./types";
 import { resizeIn } from "./utils";
 
 /**
@@ -32,7 +32,7 @@ export function ResizePresetDiv({
 }: {
   originalSize: Size | null;
   setSizeFinal: (size: Size) => void;
-  options: ImagePlusOptions;
+  options: NormalizedImagePlusOptions;
   preset: ResizePreset;
 }) {
   const resizeWidth = getResizeWidth(originalSize, options.maxWidth, preset);

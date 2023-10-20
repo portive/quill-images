@@ -1,4 +1,4 @@
-import { ImagePlusOptions } from "./types";
+import { NormalizedImagePlusOptions } from "./types";
 
 type HandleDirection = "left" | "right" | "both" | "neither";
 type HandleType = "big" | "small";
@@ -22,7 +22,7 @@ function getHandleDirection(
 function getDirectionStyle(
   handleType: HandleType,
   dir: HandleDirection,
-  options: ImagePlusOptions
+  options: NormalizedImagePlusOptions
 ) {
   const radius =
     handleType === "big" ? options.bigHandleRadius : options.smallHandleRadius;
@@ -53,7 +53,7 @@ function getDirectionStyle(
 function getPositionStyle(
   handleType: HandleType,
   dir: HandleDirection,
-  options: ImagePlusOptions
+  options: NormalizedImagePlusOptions
 ) {
   switch (handleType) {
     case "big":
@@ -86,7 +86,7 @@ function getPositionStyle(
 
 function getHandleStyleFromType(
   handleType: HandleType,
-  options: ImagePlusOptions
+  options: NormalizedImagePlusOptions
 ) {
   switch (handleType) {
     case "big":
@@ -113,7 +113,7 @@ export function ResizeHandle({
   maxWidth,
 }: {
   onMouseDown: (e: MouseEvent) => void;
-  options: ImagePlusOptions;
+  options: NormalizedImagePlusOptions;
   size: { width: number; height: number };
   handleType: HandleType;
   minWidth: number;

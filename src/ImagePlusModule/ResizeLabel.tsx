@@ -1,4 +1,4 @@
-import { ImagePlusOptions } from "./types";
+import { NormalizedImagePlusOptions } from "./types";
 
 /**
  * The resize label that shows the width/height of the image
@@ -8,7 +8,7 @@ export function ResizeLabel({
   options,
 }: {
   size: { width: number; height: number };
-  options: ImagePlusOptions;
+  options: NormalizedImagePlusOptions;
 }) {
   const isBelow = size.width < 100 || size.height < 100;
   const bottom = isBelow

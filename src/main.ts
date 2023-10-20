@@ -3,7 +3,7 @@ import { insertImage } from "./ImagePlusModule/uploadImage";
 import "./ImagePlusModule";
 import { ImagePlusOptions } from "./ImagePlusModule/types";
 
-const imagePlusOptions: Partial<ImagePlusOptions> = {
+const imagePlusOptions: ImagePlusOptions = {
   maxWidth: 480,
   labelBorderRadius: 0,
   // focusBorderWidth: 12,

@@ -1,8 +1,8 @@
 import Quill from "quill";
 import { addImageSelectHandlers } from "./addImageSelectHandlers";
 import {
-  ImagePlusInputOptions,
   ImagePlusOptions,
+  NormalizedImagePlusOptions,
   ResizePreset,
   ResizePresetInput,
 } from "./types";
@@ -38,11 +38,11 @@ function normalizePreset(preset: ResizePresetInput): ResizePreset | null {
 
 export class ImagePlusModule {
   quill: Quill;
-  options: ImagePlusOptions;
+  options: NormalizedImagePlusOptions;
 
   constructor(
     quill: Quill,
-    { resizePresets, ...inputOptions }: ImagePlusInputOptions
+    { resizePresets, ...inputOptions }: ImagePlusOptions
   ) {
     this.quill = quill;
     this.options = {

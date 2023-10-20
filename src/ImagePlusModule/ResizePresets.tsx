@@ -1,4 +1,4 @@
-import { ImagePlusOptions, Size } from "./types";
+import { NormalizedImagePlusOptions, Size } from "./types";
 import { ResizePresetDiv } from "./ResizePresetDiv";
 
 export function ResizePresets({
@@ -8,7 +8,7 @@ export function ResizePresets({
 }: {
   originalSize: Size | null;
   setSizeFinal: (size: Size) => void;
-  options: ImagePlusOptions;
+  options: NormalizedImagePlusOptions;
 }) {
   return (
     <div
