@@ -1,4 +1,3 @@
-// import { EmbedBlot } from "parchment";
 import Quill from "quill";
 import { initImagePlusSpan } from "./initImagePlusSpan";
 
