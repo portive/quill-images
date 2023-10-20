@@ -68,5 +68,3 @@ export class ImagePlusBlot extends Embed {
     return attrs;
   }
 }
-
-Quill.register("blots/customImage", ImagePlusBlot);

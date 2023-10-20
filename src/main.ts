@@ -1,13 +1,11 @@
 import Quill from "quill";
-import { insertImage } from "./ImagePlusModule/uploadImage";
-import "./ImagePlusModule";
-import { ImagePlusOptions } from "./ImagePlusModule/types";
+import { registerImagePlus, ImagePlusOptions } from "./ImagePlusModule";
+
+registerImagePlus();
 
 const imagePlusOptions: ImagePlusOptions = {
   maxWidth: 480,
   labelBorderRadius: 0,
-  // focusBorderWidth: 12,
-  // focusBorderColor: "rgba(0, 64, 192, 0.5)",
   imageBorderRadius: 8,
 };
 
@@ -20,19 +18,6 @@ const quill = new Quill("#editor", {
       ["link", "image"],
     ],
   },
-});
-
-quill.getModule("toolbar").addHandler("image", () => {
-  const input = document.createElement("input");
-  input.setAttribute("type", "file");
-  input.setAttribute("accept", "image/*");
-  input.click();
-
-  input.onchange = async () => {
-    const file = input.files?.[0];
-    if (!file) return;
-    insertImage(quill, file);
-  };
 });
 
 quill.on("text-change", () => {

@@ -7,6 +7,8 @@ import {
   ResizePresetInput,
 } from "./types";
 import { initImagePlusSpan } from "./initImagePlusSpan";
+import quill from "quill";
+import { insertImage } from "./uploadImage";
 
 function normalizePreset(preset: ResizePresetInput): ResizePreset | null {
   if (typeof preset === "number") {
@@ -93,6 +95,22 @@ export class ImagePlusModule {
     addImageSelectHandlers(quill);
 
     this.addEditorTextChangeHandler();
+    this.registerToolbar();
+  }
+
+  registerToolbar() {
+    this.quill.getModule("toolbar").addHandler("image", () => {
+      const input = document.createElement("input");
+      input.setAttribute("type", "file");
+      input.setAttribute("accept", "image/*");
+      input.click();
+
+      input.onchange = async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        insertImage(this.quill, file);
+      };
+    });
   }
 
   addEditorTextChangeHandler() {
@@ -136,5 +154,3 @@ export class ImagePlusModule {
     });
   }
 }
-
-Quill.register("modules/imagePlus", ImagePlusModule);
