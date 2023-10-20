@@ -1,5 +1,6 @@
 // import { EmbedBlot } from "parchment";
 import Quill from "quill";
+import { initImagePlusSpan } from "./initImagePlusSpan";
 
 const Embed = Quill.import("blots/block/embed");
 
@@ -9,11 +10,8 @@ export class ImagePlusBlot extends Embed {
   static className = "ql-image";
   static create(value: any) {
     const node = super.create(value) as HTMLSpanElement;
-    node.setAttribute("draggable", "true");
-    node.style.position = "relative";
-    node.style.userSelect = "none";
+    initImagePlusSpan(node);
     const image = document.createElement("img");
-    image.setAttribute("draggable", "false");
     image.setAttribute("src", value);
     node.appendChild(image);
     return node;

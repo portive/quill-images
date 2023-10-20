@@ -6,6 +6,7 @@ import {
   ResizePreset,
   ResizePresetInput,
 } from "./types";
+import { initImagePlusSpan } from "./initImagePlusSpan";
 
 function normalizePreset(preset: ResizePresetInput): ResizePreset | null {
   if (typeof preset === "number") {
@@ -118,6 +119,7 @@ export class ImagePlusModule {
     images.forEach((image: HTMLImageElement) => {
       const span = document.createElement("span");
       span.setAttribute("class", "ql-image");
+      initImagePlusSpan(span);
       /**
        * If resize isn't working on the image, especially on the first click,
        * this may be the issue.
