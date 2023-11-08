@@ -20,6 +20,13 @@ type ExtendedDocument = Document & {
 
 const Parchment = Quill.import("parchment");
 
+const IMAGE_REGEXP = /^image\/(gif|jpe?g|png)$/i;
+
+function isFileImage(file: File) {
+  // return file.type && file.type.indexOf("image") === 0;
+  return IMAGE_REGEXP.test(file.type);
+}
+
 function normalizePreset(preset: ResizePresetInput): ResizePreset | null {
   if (typeof preset === "number") {
     return {
@@ -107,7 +114,9 @@ export class ImagePlusModule {
     this.addEditorTextChangeHandler();
     this.registerToolbar();
     this.handleDrop = this.handleDrop.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
     this.quill.root.addEventListener("drop", this.handleDrop, false);
+    this.quill.root.addEventListener("paste", this.handlePaste, false);
   }
 
   registerToolbar() {
@@ -140,46 +149,52 @@ export class ImagePlusModule {
   }
 
   handleDrop(e: DragEvent) {
-    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
-      const file = e.dataTransfer.files[0];
-      const { type } = file;
-      const IMAGE_REGEXP = /^image\/(gif|jpe?g|png)$/i;
-      if (!IMAGE_REGEXP.test(type)) {
-        return;
-      }
-      e.preventDefault();
-      // Use the caretPositionFromPoint method to handle Firefox
-      let caretPosition;
-
-      if ((document as ExtendedDocument).caretPositionFromPoint) {
-        caretPosition = (document as ExtendedDocument).caretPositionFromPoint(
-          e.clientX,
-          e.clientY
-        );
-      } else if (document.caretRangeFromPoint) {
-        // For browsers that do not support caretPositionFromPoint
-        const range = document.caretRangeFromPoint(e.clientX, e.clientY);
-        if (range) {
-          caretPosition = {
-            offsetNode: range.startContainer,
-            offset: range.startOffset,
-          };
-        }
-      }
-
-      const { quill } = this;
-      if (caretPosition) {
-        const leafNode =
-          caretPosition.offsetNode.nodeType === 3
-            ? caretPosition.offsetNode
-            : caretPosition.offsetNode.firstChild;
-        const blot = Parchment.find(leafNode);
-        const index = blot.offset(quill.scroll) + caretPosition.offset;
-        // Set the Quill selection to the index we calculated
-        quill.setSelection(index, 0);
-      }
-      insertImage(this.quill, file);
+    if (!e.dataTransfer || !e.dataTransfer.files.length) return;
+    const file = e.dataTransfer.files[0];
+    if (!isFileImage(file)) {
+      return;
     }
+    e.preventDefault();
+    e.stopPropagation();
+    // Use the caretPositionFromPoint method to handle Firefox
+    let caretPosition;
+
+    if ((document as ExtendedDocument).caretPositionFromPoint) {
+      caretPosition = (document as ExtendedDocument).caretPositionFromPoint(
+        e.clientX,
+        e.clientY
+      );
+    } else if (document.caretRangeFromPoint) {
+      // For browsers that do not support caretPositionFromPoint
+      const range = document.caretRangeFromPoint(e.clientX, e.clientY);
+      if (range) {
+        caretPosition = {
+          offsetNode: range.startContainer,
+          offset: range.startOffset,
+        };
+      }
+    }
+
+    if (caretPosition) {
+      const leafNode =
+        caretPosition.offsetNode.nodeType === 3
+          ? caretPosition.offsetNode
+          : caretPosition.offsetNode.firstChild;
+      const blot = Parchment.find(leafNode);
+      const index = blot.offset(this.quill.scroll) + caretPosition.offset;
+      // Set the Quill selection to the index we calculated
+      this.quill.setSelection(index, 0);
+    }
+    insertImage(this.quill, file);
+  }
+
+  handlePaste(e: ClipboardEvent) {
+    if (!e.clipboardData || !e.clipboardData.files.length) return;
+    const file = e.clipboardData.files[0];
+    if (!isFileImage(file)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    insertImage(this.quill, file);
   }
 
   /**
