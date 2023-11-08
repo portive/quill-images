@@ -23,5 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# Environment Variables
+.env
+.env.local
+
 # Build
 .dist
