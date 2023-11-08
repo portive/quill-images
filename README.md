@@ -110,6 +110,14 @@ const quill = new Quill("#editor", {
 });
 ```
 
+### Portive Upload Support
+
+#### `portiveAuthToken: string`
+
+Enter the Portive Auth Token.
+
+Get an auth token from `https://portive.com`.
+
 ### Image Size Options
 
 #### `minWidth?: number = 50`
