@@ -27,8 +27,8 @@ const quill = new Quill("#editor", {
   },
 });
 
-quill.on("text-change", () => {
-  const contents = quill.getContents();
-  (document.getElementById("value") as HTMLTextAreaElement).value =
-    JSON.stringify(contents, null, 2);
-});
+// quill.on("text-change", () => {
+//   const contents = quill.getContents();
+//   (document.getElementById("value") as HTMLTextAreaElement).value =
+//     JSON.stringify(contents, null, 2);
+// });
