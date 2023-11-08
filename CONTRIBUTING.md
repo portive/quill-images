@@ -25,5 +25,9 @@ VITE_PORTIVE_AUTH_TOKEN=yOuR.aUtH.ToKeNGoEsHeRe
 
 ### Similar NPM Libraries
 
+These are some NPM libraries that contain some of the features in `quill-images` and are useful references.
+
 - [Quill Resize Image](https://github.com/hunghg255/quill-resize-image/blob/master/src/ResizePlugin.ts)
   - [Demo](https://quill-resize-image.vercel.app/)
+- [Quill Image Uploader](https://www.npmjs.com/package/quill-image-uploader)
+- [Quill Image Drop and Paste](https://www.npmjs.com/package/quill-image-drop-and-paste)
