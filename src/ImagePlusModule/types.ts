@@ -15,7 +15,18 @@ export type ResizePreset =
 
 export type ResizePresetInput = number | string | ResizePreset;
 
+type RequiredImagePlusOptions = {
+  /**
+   * Portive Auth Token for uploading images.
+   * Get one from https://portive.com
+   */
+  portiveAuthToken: string;
+};
+
 type SharedImagePlusOptions = {
+  /**
+   * minimum and maximum width for image resizing
+   */
   minWidth: number;
   maxWidth: number;
 
@@ -75,10 +86,12 @@ type SharedImagePlusOptions = {
   smallHandleColor: string;
 };
 
-export type ImagePlusOptions = Partial<NormalizedImagePlusOptions> & {
-  resizePresets?: ResizePresetInput[];
-};
+export type ImagePlusOptions = RequiredImagePlusOptions &
+  Partial<NormalizedImagePlusOptions> & {
+    resizePresets?: ResizePresetInput[];
+  };
 
-export type NormalizedImagePlusOptions = SharedImagePlusOptions & {
-  resizePresets: ResizePreset[];
-};
+export type NormalizedImagePlusOptions = RequiredImagePlusOptions &
+  SharedImagePlusOptions & {
+    resizePresets: ResizePreset[];
+  };

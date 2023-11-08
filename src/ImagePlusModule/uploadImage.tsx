@@ -6,23 +6,11 @@ import { getImagePlusOptions } from ".";
 
 const Delta = Quill.import("delta");
 
-interface ImportMetaEnv {
-  readonly VITE_PORTIVE_AUTH_TOKEN: string | undefined;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
 const AUTH_TOKEN = import.meta.env.VITE_PORTIVE_AUTH_TOKEN;
 
 if (!AUTH_TOKEN) {
   throw new Error(`Expected VITE_PORTIVE_AUTH_TOKEN to be defined`);
 }
-
-// const AUTH_TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InB1UFoyZTdlN0tUVzh0MjQifQ.eyJpYXQiOjE2OTY1NzU0OTUsImV4cCI6MTcyODEzMzA5NX0.vbtOx4mtGFWRkY4QORoAK00ISBFwBUe7TuKFAeYB2X8`;
-
-const portiveClient = new Client({ authToken: AUTH_TOKEN });
 
 async function getDataUrlFromFile(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -57,7 +45,11 @@ async function getImageSizeFromUrl(
   });
 }
 
-export async function insertImage(quill: Quill, file: File) {
+export async function insertImage(
+  quill: Quill,
+  file: File,
+  portiveClient: Client
+) {
   if (!file) return;
 
   const options = getImagePlusOptions(quill);

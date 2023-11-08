@@ -8,6 +8,7 @@ import {
 } from "./types";
 import { initImagePlusSpan } from "./initImagePlusSpan";
 import { insertImage } from "./uploadImage";
+import { Client } from "@portive/client";
 
 type CaretPosition = {
   offsetNode: Node;
@@ -59,12 +60,16 @@ function normalizePreset(preset: ResizePresetInput): ResizePreset | null {
 export class ImagePlusModule {
   quill: Quill;
   options: NormalizedImagePlusOptions;
+  portiveClient: Client;
 
   constructor(
     quill: Quill,
     { resizePresets, ...inputOptions }: ImagePlusOptions
   ) {
     this.quill = quill;
+    this.portiveClient = new Client({
+      authToken: inputOptions.portiveAuthToken,
+    });
     this.options = {
       minWidth: 50,
       maxWidth: 480,
@@ -129,7 +134,7 @@ export class ImagePlusModule {
       input.onchange = async () => {
         const file = input.files?.[0];
         if (!file) return;
-        insertImage(this.quill, file);
+        insertImage(this.quill, file, this.portiveClient);
       };
     });
   }
@@ -156,6 +161,7 @@ export class ImagePlusModule {
     }
     e.preventDefault();
     e.stopPropagation();
+
     // Use the caretPositionFromPoint method to handle Firefox
     let caretPosition;
 
@@ -185,7 +191,7 @@ export class ImagePlusModule {
       // Set the Quill selection to the index we calculated
       this.quill.setSelection(index, 0);
     }
-    insertImage(this.quill, file);
+    insertImage(this.quill, file, this.portiveClient);
   }
 
   handlePaste(e: ClipboardEvent) {
@@ -194,7 +200,7 @@ export class ImagePlusModule {
     if (!isFileImage(file)) return;
     e.preventDefault();
     e.stopPropagation();
-    insertImage(this.quill, file);
+    insertImage(this.quill, file, this.portiveClient);
   }
 
   /**
