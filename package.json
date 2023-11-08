@@ -1,15 +1,32 @@
 {
   "name": "@portive/quill-images",
   "version": "1.0.0",
-  "type": "module",
-  "main": ".dist/index.cjs",
-  "module": ".dist/index.js",
-  "types": ".dist/index.d.ts",
+  "description": "Add image uploads with click to upload, drag and drop and paste support. Includes upload progress bar, quick image preview, server side image resizing, presets, support for higher DPI devices with srcset. Completely configurable styling.",
+  "keywords": [
+    "quill",
+    "images",
+    "upload",
+    "resize",
+    "image resize",
+    "drag to resize",
+    "dragndrop",
+    "drag and drop",
+    "paste",
+    "server side resize",
+    "portive"
+  ],
+  "homepage": "https://github.com/portive/quill-images",
+  "repository": "https://github.com/portive/quill-images",
+  "license": "MIT",
   "files": [
     "package.json",
     "README.md",
     ".dist/**/*"
   ],
+  "type": "module",
+  "main": ".dist/index.cjs",
+  "module": ".dist/index.js",
+  "types": ".dist/index.d.ts",
   "devDependencies": {
     "@portive/fire": "^2.0.12",
     "@preact/preset-vite": "^2.6.0",
@@ -30,11 +47,11 @@
     "-- build": "# build",
     "build": "rimraf .dist && tsup",
     "prepare": "pnpm build",
+    "-- fire": "# fire",
+    "fire": "fire ~/projects/fire/fire-monorepo fire",
     "-- start": "# start",
     "dev": "vite",
     "preview": "vite preview",
-    "-- fire": "# fire",
-    "fire": "fire ~/projects/fire/fire-monorepo fire",
     "-- end": "# end"
   }
 }
