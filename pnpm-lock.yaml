@@ -8,9 +8,6 @@ dependencies:
   '@portive/client':
     specifier: ^10.0.3
     version: 10.0.3(@types/node@20.8.2)(typescript@5.0.2)
-  '@portive/quill-images':
-    specifier: 1.0.7
-    version: 1.0.7(@types/node@20.8.2)(quill@1.3.7)(typescript@5.0.2)
   quill:
     specifier: ^1.3.7
     version: 1.3.7
@@ -600,21 +597,6 @@ packages:
       chalk: 4.1.2
       node-pty: 1.0.0
     dev: true
-
-  /@portive/quill-images@1.0.7(@types/node@20.8.2)(quill@1.3.7)(typescript@5.0.2):
-    resolution: {integrity: sha512-78A8gpoiH0dDJ7fqghgXHiB1J8SnPjWUbzf7hIhOmXJkkqxpZfkiBvDfWAofeWJ5kShrnw1ZAvAxpYTysMsHZA==}
-    peerDependencies:
-      quill: ^1.3.7
-    dependencies:
-      '@portive/client': 10.0.3(@types/node@20.8.2)(typescript@5.0.2)
-      quill: 1.3.7
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - debug
-      - typescript
-    dev: false
 
   /@preact/preset-vite@2.6.0(@babel/core@7.23.2)(preact@10.18.1)(vite@4.4.5):
     resolution: {integrity: sha512-5nztNzXbCpqyVum/K94nB2YQ5PTnvWdz4u7/X0jc8+kLyskSSpkNUxLQJeI90zfGSFIX1Ibj2G2JIS/mySHWYQ==}

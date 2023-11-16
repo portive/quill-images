@@ -131,9 +131,11 @@ export class ImagePlusModule {
       input.setAttribute("accept", "image/*");
       input.click();
 
-      input.onchange = async () => {
+      input.onchange = async (e) => {
         const file = input.files?.[0];
         if (!file) return;
+        e.preventDefault();
+        e.stopPropagation();
         insertImage(this.quill, file, this.portiveClient);
       };
     });

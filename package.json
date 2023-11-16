@@ -1,6 +1,6 @@
 {
   "name": "@portive/quill-images",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Add image uploads with click to upload, drag and drop and paste support. Includes upload progress bar, quick image preview, server side image resizing, presets, support for higher DPI devices with srcset. Completely configurable styling.",
   "keywords": [
     "quill",
@@ -42,8 +42,7 @@
     "quill": "^1.3.7"
   },
   "dependencies": {
-    "@portive/client": "^10.0.3",
-    "@portive/quill-images": "1.0.7"
+    "@portive/client": "^10.0.3"
   },
   "scripts": {
     "-- build": "# build",
