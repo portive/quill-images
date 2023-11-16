@@ -26,6 +26,15 @@ export default defineConfig([
     format: ["iife"],
     // target: ["es2020"],
     platform: "browser",
+    external: ["quill"],
     globalName: "ImagePlusModule",
+    esbuildOptions: (options) => {
+      if (!options.alias) options.alias = {};
+      options.alias.quill = "./src/ImagePlusModule/quill-shim.js";
+    }, //{
+    // alias: {
+    //   quill: "./src/ImagePlusModule/quill-shim.ts",
+    // },
+    // },
   },
 ]);
