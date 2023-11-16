@@ -24,6 +24,8 @@ export default defineConfig([
     entryPoints: ["./src/ImagePlusModule/index.ts"],
     outDir: ".dist",
     format: ["iife"],
+    // target: ["es2020"],
+    platform: "browser",
     globalName: "ImagePlusModule",
   },
 ]);
