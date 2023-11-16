@@ -43,7 +43,7 @@ This assumes usage of JavaScript through an imported `/src/main.js`. Get your Po
 
 ```javascript
 import Quill from "quill";
-import { registerImagePlus } from "./ImagePlusModule";
+import { registerImagePlus } from "@portive/quill-images";
 
 // must be called to register the module with Quill
 registerImagePlus();
@@ -70,13 +70,13 @@ If you're using TypeScript, you can get some type safety by importing the `Image
 
 ```typescript
 import Quill from "quill";
-import { registerImagePlus, ImagePlusOptions } from "./ImagePlusModule";
+import { registerImagePlus, ImagePlusOptions } from "@portive/quill-images";
 
 // must be called to register this module with Quill
 registerImagePlus();
 
 const imagePlusOptions: ImagePlusOptions = {
-  portiveAuthToken: YOUR_PORTIE_AUTH_TOKEN_GOES_HERE,
+  portiveAuthToken: YOUR_PORTIVE_AUTH_TOKEN_GOES_HERE,
 };
 
 const quill = new Quill("#editor", {
