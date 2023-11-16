@@ -12,9 +12,18 @@ export default defineConfig([
     entryPoints: ["./src/ImagePlusModule/index.ts"],
     outDir: ".dist",
     format: ["esm", "cjs"],
-    outExtension: (context) => {
-      return { dts: `.${context.format}.d.js` };
-    },
+    // outExtension: (context) => {
+    //   return { dts: `.${context.format}.d.js` };
+    // },
+    // globalName: "ImagePlusModule",
+  },
+  /**
+   * Browser
+   */
+  {
+    entryPoints: ["./src/ImagePlusModule/index.ts"],
+    outDir: ".dist",
+    format: ["iife"],
     globalName: "ImagePlusModule",
   },
 ]);
