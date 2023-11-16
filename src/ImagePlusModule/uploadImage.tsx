@@ -6,11 +6,11 @@ import { getImagePlusOptions } from ".";
 
 const Delta = Quill.import("delta");
 
-const AUTH_TOKEN = import.meta.env.VITE_PORTIVE_AUTH_TOKEN;
+// const AUTH_TOKEN = import.meta.env.VITE_PORTIVE_AUTH_TOKEN;
 
-if (!AUTH_TOKEN) {
-  throw new Error(`Expected VITE_PORTIVE_AUTH_TOKEN to be defined`);
-}
+// if (!AUTH_TOKEN) {
+//   throw new Error(`Expected VITE_PORTIVE_AUTH_TOKEN to be defined`);
+// }
 
 async function getDataUrlFromFile(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
