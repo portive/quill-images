@@ -42,7 +42,8 @@
     "quill": "^1.3.7"
   },
   "dependencies": {
-    "@portive/client": "^10.0.3"
+    "@portive/client": "^10.0.3",
+    "@portive/quill-images": "1.0.7"
   },
   "scripts": {
     "-- build": "# build",
