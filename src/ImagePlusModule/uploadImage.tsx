@@ -59,7 +59,6 @@ export async function insertImage(
   const dataURL = await getDataUrlFromFile(file);
   const imageSize = await getImageSizeFromUrl(dataURL);
   const width = Math.min(imageSize.width, options.maxWidth);
-  // console.log({ width });
 
   /**
    * Insert the image as a custom blot
@@ -71,8 +70,24 @@ export async function insertImage(
 
   quill.updateContents(delta);
 
-  const blot = quill.getLeaf(range.index + 1)[0];
+  /**
+   * TODO: Fix newline image location hack.
+   *
+   * This is a hack at the moment. Quill.js behaves unusually when inserting an
+   * image at the beginning of a text block vs anywhere else. This affects the
+   * `range.index`. If an image is inserted at the beginning of a line, it is at
+   * `range.index` but if it is inserted elsewhere, it is at `range.index+1`.
+   * For the moment, we check both locations and this solves the issue; however,
+   * ultimately we should find out what is happening and resolve it more
+   * elegantly.
+   */
+
+  const blot0 = quill.getLeaf(range.index)[0];
+  const blot1 = quill.getLeaf(range.index + 1)[0];
+
+  const blot = blot0.getImage ? blot0 : blot1;
   const image = blot.getImage();
+
   image.setAttribute("width", `${width}`);
 
   /**
