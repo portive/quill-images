@@ -38,21 +38,23 @@ npm install @portive/quill-images --save
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 
 <!-- Include Quill Images -->
-<!-- TODO: make this a real URL -->
-<script src="//cdn.jsdelivr.net/npm/package@version/file"></script>
+<script src="https://cdn.jsdelivr.net/npm/@portive/quill-images@1.0.9/.dist/index.global.js"></script>
 
 <!-- Create the editor container -->
-<div id="editor" style="width: 720px; height: 480px">
+<div id="editor" style="width: 720px; height: 481px">
   <p>Add images via toolbar button, drag &amp; drop or paste.</p>
 </div>
 
+<!-- Register quill-images (aka ImagePlus), instantiate Quill -->
 <script>
+  ImagePlusModule.registerImagePlus();
   const quill = new Quill("#editor", {
     theme: "snow",
     modules: {
       imagePlus: {
         // Don't worry. This auth token is a public demo.
         // Committing to the repo is intentional.
+        // Get your own token from portive.com after trying the demo.
         portiveAuthToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZ5S1R2N0ZvbXVzTTkyVG0ifQ.eyJpYXQiOjE3MDAxNjYzNDIsImV4cCI6NDg1NTkyNjM0Mn0.cQMl0Wt0z5USr7BlU6v-mTuTuRxlcNNAnZwWbr4Fdn8",
       },
       toolbar: [
@@ -83,6 +85,7 @@ const quill = new Quill("#editor", {
     imagePlus: {
       // Don't worry. This auth token is a public demo.
       // Committing to the repo is intentional.
+      // Get your own token from portive.com after trying the demo.
       portiveAuthToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZ5S1R2N0ZvbXVzTTkyVG0ifQ.eyJpYXQiOjE3MDAxNjYzNDIsImV4cCI6NDg1NTkyNjM0Mn0.cQMl0Wt0z5USr7BlU6v-mTuTuRxlcNNAnZwWbr4Fdn8",
     },
     toolbar: [
@@ -107,6 +110,7 @@ registerImagePlus();
 const imagePlusOptions: ImagePlusOptions = {
   // Don't worry. This auth token is a public demo.
   // Committing to the repo is intentional.
+  // Get your own token from portive.com after trying the demo.
   portiveAuthToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZ5S1R2N0ZvbXVzTTkyVG0ifQ.eyJpYXQiOjE3MDAxNjYzNDIsImV4cCI6NDg1NTkyNjM0Mn0.cQMl0Wt0z5USr7BlU6v-mTuTuRxlcNNAnZwWbr4Fdn8",
 };
 
