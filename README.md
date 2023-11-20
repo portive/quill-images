@@ -1,41 +1,72 @@
-# Quill Image Uploader
+# Quill Images
 
-## Features
+Add image uploads with click to upload, drag and drop and paste support. Includes upload progress bar, quick image preview, server side image resizing, presets, support for higher DPI devices with srcset. Configurable styling.
 
-- Upload using a toolbar button, drag &amp; drop or paste
-- Drag to resize with min/max limits on resizing
-- Preserve aspect ratio while resizing
-- Automatic resizing on the server to deliver optimized image to browser (does not send the full uploaded image)
-- High DPI image delivers the optimized image for each device while using the minimal amount of bandwidth to do it
+See the [Codepen demo](https://codepen.io/scottward/pen/RwvjOVJ).
+
+## **Frontend** Features
+
+- Beautiful UI for editor users.
+- Upload using a toolbar button, drag &amp; drop or paste.
+- Drag to resize with min/max limits on resizing.
 - Available resize presets allows users to resize to recommended sizes. Resize using a max bound (e.g. 640x480) or by ratio (e.g. 50%).
-- Resize width/height status bar. While the user is resizing the image, a handy status bar appears at the bottom of the image showing the exact width/height.
-- Unobtrusive drag handle. As the user drags the image beneath a certain size (usually around 100px but is configurable) the drag handle moves outside the image so as not to obscure what the image looks like.
-- Completely configurable look and feel with 36 configurable values including colors, sizes and rounding
+- Configurable look and feel with 36 configurable values including colors, sizes and rounding.
 - Instant upload feedback. When images are inserted, the image from the local file system is used to display a preview.
 - Progress bar. Users know the state of their upload by looking at the toolbar.
 
-## Usage
+<video autoplay="" loop="" muted="" class="" style="max-width: 400px;"><source src="https://files.portive.com/portive/web/video/hero-animation-2022-v3.mp4" type="video/mp4">Your browser does not support the video tag.</video>
 
-### HTML Page
+## **Backend** Features [optional]
+- Robust image and file uploads without any backend coding required. Our server handles everything.
+- Automatic resizing on the server to deliver optimized image to browser (does not send the full uploaded image).
+- High DPI image delivers the optimized image for each device while using the minimal amount of bandwidth to do it.
+- Fast global file delivery using a high speed Content Delivery Network (CDN).
 
-Here's a bare bones HTML page containing a Quill editor which loads the script used to get Quill set up with images. The code takes care of wiring up the image button in the toolbar as well as drag and drop and paste support. It also handles all image resizing.
+## Install
 
-The method of importing the code works in Vite but every framework works a little differently so please adjust accordingly.
-
-```html
-<!-- Include stylesheet -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
-
-<!-- Create the editor container -->
-<div id="editor" style="width: 720px; height: 480px">
-  <p>Hello World!</p>
-</div>
-
-<!-- This imports code in main.js below. This works in Vite but may be different for you. -->
-<script type="module" src="/src/main.js"></script>
+```
+npm install @portive/quill-images --save
 ```
 
-### Quill + Image Uploader Code
+## Usage
+
+### Script Tag
+
+```html
+<!-- Include Quill Editor and Stylesheet -->
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+
+<!-- Include Quill Images -->
+<script src="https://cdn.jsdelivr.net/npm/@portive/quill-images@1.0.9/.dist/index.global.js"></script>
+
+<!-- Create the editor container -->
+<div id="editor" style="width: 720px; height: 481px">
+  <p>Add images via toolbar button, drag &amp; drop or paste.</p>
+</div>
+
+<!-- Register quill-images (aka ImagePlus), instantiate Quill -->
+<script>
+  ImagePlusModule.registerImagePlus();
+  const quill = new Quill("#editor", {
+    theme: "snow",
+    modules: {
+      imagePlus: {
+        // Don't worry. This auth token is a public demo.
+        // Committing to the repo is intentional.
+        // Get your own token from portive.com after trying the demo.
+        portiveAuthToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZ5S1R2N0ZvbXVzTTkyVG0ifQ.eyJpYXQiOjE3MDAxNjYzNDIsImV4cCI6NDg1NTkyNjM0Mn0.cQMl0Wt0z5USr7BlU6v-mTuTuRxlcNNAnZwWbr4Fdn8",
+      },
+      toolbar: [
+        ["bold", "italic", "underline", "strike"],
+        ["link", "image"],
+      ],
+    },
+  });
+</script>
+```
+
+### Webpack/ES6
 
 #### JavaScript
 
@@ -48,14 +79,15 @@ import { registerImagePlus } from "@portive/quill-images";
 // must be called to register the module with Quill
 registerImagePlus();
 
-const imagePlusOptions = {
-  portiveAuthToken: YOUR_PORTIVE_AUTH_TOKEN_GOES_HERE,
-};
-
 const quill = new Quill("#editor", {
   theme: "snow",
   modules: {
-    imagePlus: imagePlusOptions,
+    imagePlus: {
+      // Don't worry. This auth token is a public demo.
+      // Committing to the repo is intentional.
+      // Get your own token from portive.com after trying the demo.
+      portiveAuthToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZ5S1R2N0ZvbXVzTTkyVG0ifQ.eyJpYXQiOjE3MDAxNjYzNDIsImV4cCI6NDg1NTkyNjM0Mn0.cQMl0Wt0z5USr7BlU6v-mTuTuRxlcNNAnZwWbr4Fdn8",
+    },
     toolbar: [
       ["bold", "italic", "underline", "strike"],
       ["link", "image"],
@@ -76,7 +108,10 @@ import { registerImagePlus, ImagePlusOptions } from "@portive/quill-images";
 registerImagePlus();
 
 const imagePlusOptions: ImagePlusOptions = {
-  portiveAuthToken: YOUR_PORTIVE_AUTH_TOKEN_GOES_HERE,
+  // Don't worry. This auth token is a public demo.
+  // Committing to the repo is intentional.
+  // Get your own token from portive.com after trying the demo.
+  portiveAuthToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZ5S1R2N0ZvbXVzTTkyVG0ifQ.eyJpYXQiOjE3MDAxNjYzNDIsImV4cCI6NDg1NTkyNjM0Mn0.cQMl0Wt0z5USr7BlU6v-mTuTuRxlcNNAnZwWbr4Fdn8",
 };
 
 const quill = new Quill("#editor", {
@@ -100,7 +135,7 @@ const quill = new Quill("#editor", {
   theme: "snow",
   modules: {
     imagePlus: {
-      /* options here */
+      /* add your options here */
     },
     toolbar: [
       ["bold", "italic", "underline", "strike"],
