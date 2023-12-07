@@ -1,10 +1,7 @@
-// import { render } from "preact";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import Quill from "quill";
 import { ResizeLabel } from "./ResizeLabel";
-// import { resizeInWidth } from "@portive/client";
 import { getImagePlusOptions } from ".";
-// import { ImagePlusModule } from "./ImagePlusModule";
 import { generateSrcSet, getSizeFromUrl } from "./utils";
 import { ResizeHandle } from "./ResizeHandle";
 import { ResizePresets } from "./ResizePresets";
@@ -19,6 +16,8 @@ export function ResizeControls({
   quill: Quill;
 }) {
   const options = getImagePlusOptions(quill);
+
+  const resizeControlsRef = useRef<HTMLDivElement>(null);
 
   const [isResizing, setIsResizing] = useState(false);
   const [currentSize, setCurrentSize] = useState({
@@ -142,7 +141,11 @@ export function ResizeControls({
     /**
      * contenteditable=false to prevent typing in the overlay/handle
      */
-    <div class="ql-image-resize-controls" contentEditable={false}>
+    <div
+      class="ql-image-resize-controls"
+      contentEditable={false}
+      ref={resizeControlsRef}
+    >
       <ResizeHandle
         onMouseDown={onMouseDown}
         options={options}
@@ -156,6 +159,7 @@ export function ResizeControls({
           options={options}
           originalSize={originalSize}
           setSizeFinal={setSizeFinal}
+          resizeControlsRef={resizeControlsRef}
         />
       ) : null}
       <ResizeLabel size={currentSize} options={options} />
